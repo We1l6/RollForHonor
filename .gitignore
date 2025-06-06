@@ -1,0 +1,13 @@
+# ROLLFORHONOR
+
+# Logs
+logs/
+
+# Build results
+build/
+
+# VS Code
+.vs
+
+# Cache
+.cache
