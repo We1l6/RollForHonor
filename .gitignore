@@ -11,3 +11,7 @@ build/
 
 # Cache
 .cache
+
+# Clang
+.clang-format
+.clang-tidy
