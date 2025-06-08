@@ -11,13 +11,6 @@ set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/")
 include(AddGitSubmodule)
 
 
-# Add main source and test directories as subprojects.
-# - `src/` contains the main application code.
-# - `test/` contains unit tests (likely Catch2).
-add_subdirectory("src")
-add_subdirectory("test")
-
-
 # Add Git submodules for dependencies:
 # 1. Catch2 - A unit testing framework for C++.
 add_git_submodule(${PROJECT_SOURCE_DIR}/external/Catch2)
@@ -30,3 +23,10 @@ add_git_submodule(${PROJECT_SOURCE_DIR}/external/nlohmann/json)
 
 # 4. spdlog - A fast C++ logging library.
 add_git_submodule(${PROJECT_SOURCE_DIR}/external/spdlog)
+
+
+# Add main source and test directories as subprojects.
+# - `src/` contains the main application code.
+# - `test/` contains unit tests (likely Catch2).
+add_subdirectory("src")
+add_subdirectory("test")
