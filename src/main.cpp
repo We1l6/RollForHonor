@@ -27,4 +27,7 @@ int main() {
   SPDLOG_DEBUG("Some debug message");
 }
 
-void testF(int test, int test2) { spdlog::info("{:<30}", "left aligned"); }
+void testF(int test, int test2) {
+  spdlog::info("{:<30}", "left aligned");
+  spdlog::info("Positional args are {1} {0}..", "too", "supported");
+}

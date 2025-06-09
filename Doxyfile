@@ -1,0 +1,10 @@
+PROJECT_NAME           = "RollForHonor"
+OUTPUT_DIRECTORY       = docs
+GENERATE_LATEX         = NO
+RECURSIVE              = YES
+EXTRACT_ALL            = YES
+INPUT                  = src
+FILE_PATTERNS          = *.cpp *.h
+GENERATE_HTML          = YES
+GENERATE_TREEVIEW      = YES
+
