@@ -1,0 +1,17 @@
+# ROLLFORHONOR
+
+# Logs
+logs/
+
+# Build results
+build/
+
+# VS Code
+.vs
+
+# Cache
+.cache
+
+# Clang
+.clang-format
+.clang-tidy

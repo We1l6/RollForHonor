@@ -1,0 +1,12 @@
+[submodule "external/spdlog"]
+	path = external/spdlog
+	url = https://github.com/gabime/spdlog
+[submodule "external/fmt"]
+	path = external/fmt
+	url = https://github.com/fmtlib/fmt.git
+[submodule "external/nlohmann/json"]
+	path = external/nlohmann/json
+	url = https://github.com/nlohmann/json.git
+[submodule "external/Catch2"]
+	path = external/Catch2
+	url = https://github.com/catchorg/Catch2.git
