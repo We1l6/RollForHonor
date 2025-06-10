@@ -12,6 +12,7 @@ target_link_libraries(RollForHonorTests PRIVATE
 )
 
 # Enable testing and add the test executable
+include(CTest)
 enable_testing()
 add_test(NAME RollForHonorTests COMMAND RollForHonorTests)
 
