@@ -24,6 +24,9 @@ add_git_submodule(${PROJECT_SOURCE_DIR}/external/nlohmann/json)
 # 4. spdlog - A fast C++ logging library.
 add_git_submodule(${PROJECT_SOURCE_DIR}/external/spdlog)
 
+# 5. raylib - Simple and easy-to-use library to enjoy videogames programming.
+add_git_submodule(${PROJECT_SOURCE_DIR}/external/raylib)
+
 
 # Add main source and test directories as subprojects.
 # - `src/` contains the main application code.

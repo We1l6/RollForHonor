@@ -15,17 +15,32 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          submodules: true
 
       - name: Install dependencies
         run: |
           sudo apt update
-          sudo apt install -y clang cmake
+          sudo apt install -y \
+            clang \
+            cmake \
+            libx11-dev \
+            libxrandr-dev \
+            libxi-dev \
+            libxcursor-dev \
+            libgl1-mesa-dev \
+            libxinerama-dev \
+            libwayland-dev \
+            libxkbcommon-dev \
+            ninja-build
 
       - name: Configure CMake
         run: |
           mkdir -p build
           cd build
-          cmake .. -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
+          cmake .. -G Ninja \
+            -DCMAKE_C_COMPILER=clang \
+            -DCMAKE_CXX_COMPILER=clang++
 
       - name: Build
         run: |

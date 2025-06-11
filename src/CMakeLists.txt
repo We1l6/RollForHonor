@@ -8,4 +8,5 @@ add_executable(RollForHonor
 target_link_libraries(RollForHonor PRIVATE 
     spdlog::spdlog
     fmt::fmt
-    nlohmann_json::nlohmann_json)
+    nlohmann_json::nlohmann_json
+    raylib)
