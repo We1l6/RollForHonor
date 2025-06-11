@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt update
-          sudo apt install -y clang cmake
+          sudo apt install -y clang cmake libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev
 
       - name: Configure CMake
         run: |
@@ -35,5 +35,4 @@ jobs:
       - name: Run tests
         run: |
           cd build
-          cd test
           ctest --output-on-failure
