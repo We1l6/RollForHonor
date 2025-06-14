@@ -5,8 +5,6 @@
 #include <algorithm> 
 
 #include "raylib.h"
-#include "rlgl.h"
-
 #include "UIUtils.h"
 
 
@@ -16,8 +14,8 @@ protected:
 	TextPro m_text;
 	RectanglePro m_rect;
 
-	UserInterface(RectanglePro rect);
-	UserInterface(RectanglePro rect, TextPro text);
+	UserInterface(RectanglePro& rect);
+	UserInterface(RectanglePro& rect, TextPro& text);
 
 
 
@@ -25,14 +23,14 @@ protected:
 public:
 	virtual ~UserInterface() = default;
 	// Getters
-	RectanglePro GetBounds() const { return m_rect; }
-	int GetWidth() const { return static_cast<int>(m_rect.width); }
-	int GetHeight() const { return static_cast<int>(m_rect.height); }
-	int GetX() const { return static_cast<int>(m_rect.x); }
-	int GetY() const { return static_cast<int>(m_rect.y); }
+	[[nodiscard]] RectanglePro GetBounds() const { return m_rect; }
+	[[nodiscard]] float GetWidth() const { return m_rect.width; }
+	[[nodiscard]] float GetHeight() const { return m_rect.height; }
+	[[nodiscard]] float GetX() const { return m_rect.x; }
+	[[nodiscard]] float GetY() const { return m_rect.y; }
 	// Setters
 	void SetBounds(RectanglePro bounds) { m_rect = bounds; }
-	void SetPosition(int x, int y) { m_rect.x = static_cast<float>(x); m_rect.y = static_cast<float>(y); }
+	void SetPosition(float& x, float& y) { m_rect.x = x; m_rect.y = y; }
 
 	//bool isHovered() const { return m_isHovered; }
 
