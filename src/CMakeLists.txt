@@ -2,7 +2,9 @@ set(MAIN_SOURCES
     "main.cpp")
 
 add_executable(RollForHonor
-  ${MAIN_SOURCES})
+  ${MAIN_SOURCES}  
+  "userInterface/button/button.cpp" "userInterface/button/button.h"
+  "userInterface/userInterface.cpp" "userInterface/userInterface.h")
 
 # Link the executable target RollForHonor with the specified libraries privately
 target_link_libraries(RollForHonor PRIVATE 
