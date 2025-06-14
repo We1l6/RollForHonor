@@ -1,7 +1,21 @@
 #include "spdlog/spdlog.h"
 #include <fmt/base.h>
 
+#include <raylib.h>
+
+#include "userInterface/button/button.h"
+
 int main() {
+	InitWindow(1920, 1080, "Hello World");
+	SetTargetFPS(60);
+	Button button(RectanglePro({ 1920 /2, 1080 /2 }, { 200, 50 }, 0.0f, 10.0f, BLUE));
+	while (!WindowShouldClose()) {
+		BeginDrawing();
+		ClearBackground(RAYWHITE);
+		button.Update();
+		EndDrawing();
+	}
+
   fmt::print("Hello, world!\n");
 
   spdlog::info("Welcome to spdlog!");
