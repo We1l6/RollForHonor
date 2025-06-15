@@ -11,7 +11,6 @@ int main() {
   RectanglePro rect({ 1920 / 2, 1080 / 2 }, { 200, 50 }, 0.0f, 10.0f, BLUE);
   TextPro text("CLICK");
   Button button(rect, text);
-  button.setOnClick([&]() {button.setColor(BLACK); });
   while (!WindowShouldClose()) {
     BeginDrawing();
     ClearBackground(RAYWHITE);

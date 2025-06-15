@@ -2,13 +2,13 @@
 
 Button::Button(const RectanglePro& rect, const TextPro& text)
 	: Button(rect, text, 
-		[this]() {m_rect.setColor(CLICK_COLOR); },
+		[this]() {m_rect.setColor(HOLD_COLOR); },
 		[this]() {m_rect.setColor(DEFAULT_COLOR); }) {}
 
 Button::Button(const RectanglePro& rect, const TextPro& text,
-	ButtonCallback onClick,
-	ButtonCallback onRelease) 
-	: UserInterface(rect, text), m_onClick(onClick), m_onRelease(onRelease)
+	ButtonCallback onHold,
+	ButtonCallback onClickFinished) 
+	: UserInterface(rect, text), m_onHold(onHold), m_onClickFinished(onClickFinished)
 {
 }
 void Button::Update()
@@ -21,13 +21,13 @@ void Button::Update()
 		m_rect.setColor(HOVER_COLOR);
 
 		if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
-			if (m_onClick) {
-				m_onClick();
+			if (m_onHold) {
+				m_onHold();
 			}
 		}
 		else if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
-			if (m_onRelease) {
-				m_onRelease();
+			if (m_onClickFinished) {
+				m_onClickFinished();
 			}
 		}
 	}
