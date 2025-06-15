@@ -4,32 +4,36 @@
 #include <cmath>
 #include <string>
 
+#include "../loggerManager/loggerManager.h"
 #include "UIUtils/RectanglePro/RectanglePro.h"
 #include "UIUtils/TextPro/TextPro.h"
 #include "raylib.h"
 
+
+/**
+ * @brief Represents a base class for user interface elements.
+ * This class provides basic functionality for drawing and updating UI elements.
+ */
 class UserInterface {
 protected:
   TextPro m_text;
   RectanglePro m_rect;
-
-  UserInterface(const RectanglePro& rect);
-  UserInterface(const RectanglePro& rect, const TextPro& text);
-
+  
 public:
+
+	UserInterface(const RectanglePro& rect);
+	UserInterface(const RectanglePro& rect, const TextPro& text);
 	// Default constructor
 	UserInterface() = default; 
 	virtual ~UserInterface() = default;
-	//Getters
-	[[nodiscard]] RectanglePro GetRectanglePro() const { return m_rect; }
-
-	// bool isHovered() const { return m_isHovered; }
 
 	virtual void Draw();
 	virtual void Update();
-	virtual void HandleInput();
 
-private:
-  /*bool m_isHovered = false;
-  bool m_isPressed = false;*/
+	void setSize(Vector2 size);
+	void setPosition(Vector2 position);
+
+	//Getters
+	[[nodiscard]] RectanglePro GetRectanglePro() const { return m_rect; }
+	[[nodiscard]] TextPro GetTextPro() const { return m_text; }
 };
