@@ -1,5 +1,9 @@
 #include "RectanglePro.h"
 
+RectanglePro::RectanglePro()
+	: RectanglePro({ 0, 0 }, { 100, 100 }, 0.0f, DEFAULT_CORNER_RADIUS, DEFAULT_COLOR) {
+}
+
 RectanglePro::RectanglePro(Vector2 centerPos, Vector2 size, float rotation,
     float cornerRadius, Color color)
     : Rectangle{ centerPos.x - size.x / 2.0f, centerPos.y - size.y / 2.0f,
@@ -43,7 +47,7 @@ void RectanglePro::setPosition(Vector2 position) {
     y = position.y - height / 2.0f;
 }
 
-void RectanglePro::setBounds(RectanglePro bounds) {
+void RectanglePro::setBounds(RectanglePro& bounds) {
     x = bounds.x;
     y = bounds.y;
     width = bounds.width;

@@ -4,7 +4,7 @@
 #include <cmath>
 #include <string>
 
-#include "../loggerManager/loggerManager.h"
+//#include "../loggerManager/loggerManager.h"
 #include "UIUtils/RectanglePro/RectanglePro.h"
 #include "UIUtils/TextPro/TextPro.h"
 #include "raylib.h"
@@ -18,7 +18,7 @@ class UserInterface {
 protected:
   TextPro m_text;
   RectanglePro m_rect;
-  
+  void updateTextPosition();
 public:
 
 	UserInterface(const RectanglePro& rect);
@@ -30,10 +30,19 @@ public:
 	virtual void Draw();
 	virtual void Update();
 
-	void setSize(Vector2 size);
-	void setPosition(Vector2 position);
 
 	//Getters
-	[[nodiscard]] RectanglePro GetRectanglePro() const { return m_rect; }
-	[[nodiscard]] TextPro GetTextPro() const { return m_text; }
+	[[nodiscard]] RectanglePro getRectanglePro() const { return m_rect; }
+	[[nodiscard]] TextPro getTextPro() const { return m_text; }
+	[[nodiscard]] Vector2 getPosition() const { return m_rect.getPosition(); }
+	[[nodiscard]] Vector2 getSize() const { return m_rect.getSize(); }
+	[[nodiscard]] float getRotation() const { return m_rect.getRotation(); }
+	[[nodiscard]] float getCornerRadius() const { return m_rect.getCornerRadius(); }
+	[[nodiscard]] Color getColor() const { return m_rect.getColor(); }
+
+	//Setters
+	void setSize(Vector2 size);
+	void setPosition(Vector2 position);
+	void setText(const std::string& text);
+	
 };
