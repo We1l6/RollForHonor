@@ -4,7 +4,9 @@ RectanglePro::RectanglePro(Vector2 centerPos, Vector2 size, float rotation,
     float cornerRadius, Color color)
     : Rectangle{ centerPos.x - size.x / 2.0f, centerPos.y - size.y / 2.0f,
                 size.x, size.y },
-    m_rotation(rotation), m_cornerRadius(cornerRadius), m_color(color) {
+    m_rotation(rotation), m_cornerRadius(cornerRadius), m_color(color)
+{
+	m_segmentAmount = DEFAULT_SEGMENT_AMOUNT;
 }
 
 void RectanglePro::Draw() {
@@ -24,7 +26,26 @@ void RectanglePro::Draw() {
 
     DrawRectangleRounded(
         { -width / 2, -height / 2, width, height },
-        normalizedRadius, DEFAULT_SEGMENT_AMOUNT, m_color);
+        normalizedRadius, m_segmentAmount, m_color);
 
     rlPopMatrix();
+}
+
+void RectanglePro::setSize(Vector2 size) {
+    Vector2 center = getPosition(); 
+    width = size.x;
+    height = size.y;
+    setPosition(center);
+}
+
+void RectanglePro::setPosition(Vector2 position) {
+    x = position.x - width / 2.0f;
+    y = position.y - height / 2.0f;
+}
+
+void RectanglePro::setBounds(RectanglePro bounds) {
+    x = bounds.x;
+    y = bounds.y;
+    width = bounds.width;
+    height = bounds.height;
 }

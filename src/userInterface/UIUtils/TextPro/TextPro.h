@@ -4,6 +4,10 @@
 
 #include "raylib.h"
 
+
+/**
+* @brief Represents a text object with additional properties
+*/
 class TextPro
 {
 public:

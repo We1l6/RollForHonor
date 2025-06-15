@@ -14,14 +14,27 @@ UserInterface::UserInterface(const RectanglePro& rect, const TextPro& text)
   m_text.setRotation(m_rect.getRotation());
 }
 
+void UserInterface::setSize(Vector2 size)
+{
+	m_rect.setSize(size);
+	m_text.setPosition({
+		.x = m_rect.x + (m_rect.width / 2.0f),
+		.y = m_rect.y + (m_rect.height / 2.0f)
+		});
+}
+
+void UserInterface::setPosition(Vector2 pos)
+{
+	m_rect.setPosition(pos);
+	m_text.setPosition({
+		.x = m_rect.x + (m_rect.width / 2.0f),
+		.y = m_rect.y + (m_rect.height / 2.0f)
+		});
+}
+
 void UserInterface::Draw() {
-  // Font font = GetFontDefault();
     m_rect.Draw();
 	m_text.Draw();
 }
 
 void UserInterface::Update() { this->Draw(); }
-
-void UserInterface::HandleInput() {
-  // Input handling can be implemented in derived classes
-}
