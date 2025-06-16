@@ -32,7 +32,10 @@ public:
    * @endcode
    */
   static std::shared_ptr<Texture2D> LoadTexture(const std::string &path);
+  static bool FlipTexture(Texture2D &texture, bool horizontal, bool vertical);
 
+  static bool ResizeTexture(Texture2D &texture, float newWidth,
+                            float newHeight);
   /**
    * @brief Returns a Sound sound via an instance by accessing the
    * SoundManager
@@ -69,12 +72,10 @@ public:
    */
   static void UnloadTextures();
 
-#pragma region "Documentation"
   /**
    * @brief Unloads all cached sounds
    * @note Called automatically on program exit
    */
-#pragma endregion
   static void UnloadSounds();
 
   /**

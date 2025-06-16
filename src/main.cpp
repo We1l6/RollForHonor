@@ -3,9 +3,9 @@
 
 #include <raylib.h>
 
-#include "resourceManager/resourceManager.h"
 #include "userInterface/button/button.h"
 #include "userInterface/scrollBar/scrollBar.h"
+
 int main() {
   InitWindow(1920, 1080, "Hello World");
   SetTargetFPS(60);
