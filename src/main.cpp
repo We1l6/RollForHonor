@@ -4,6 +4,7 @@
 #include <raylib.h>
 
 #include "userInterface/button/button.h"
+#include "userInterface/scrollBar/scrollBar.h"
 
 int main() {
   InitWindow(1920, 1080, "Hello World");
@@ -15,21 +16,41 @@ int main() {
       bgColor = (bgColor.r == WHITE.r && bgColor.g == WHITE.g && bgColor.b == WHITE.b && bgColor.a == WHITE.a) ? BLACK : WHITE;
       };
 
-  RectanglePro rect({ 1920 / 2, 1080 / 2 }, { 200, 50 }, 0.0f, 10.0f, BLUE);
+  RectanglePro sbHor({ 1920 / 2, 1080 / 2 }, { 200, 20 }, 0.0f, 10.0f, LIGHTGRAY);
+  RectanglePro sbVert({ 1920 / 2 + 120, 1080 / 2 }, {20, 200}, 0.0f, 10.0f, BLUE);
+  RectanglePro btn1({ 1920 / 2, 1080 / 2 + 50}, { 150, 50 }, 0.0f, 10.0f, LIGHTGRAY);
+  RectanglePro btn2({ 1920 / 2, 1080 / 2 + 105}, { 150, 50 }, 0.0f, 10.0f, BLUE);
   TextPro text("CLICK");
 
-  Button button(rect, text);
-  //Button button(
-  //    rect,
-  //    text,
-  //    nullptr,  // onHold
-  //    [&]() { changeBGColor(BLACK); }   // onClickFinished
-  //);
+  ScrollBar sb(
+	  RectanglePro(sbHor),
+	  TextPro("SCROLL TEXT"),
+	  0.0f, 256.0f, true);
+  ScrollBar sb2(
+      RectanglePro(sbVert),
+      TextPro("SCROLL TEXT"),
+      0.0f, 1000.0f, false);
+  sb2.setStep(200.0f);
+  sb.setColor(LIGHTGRAY);
+  sb.setThumbColor(WHITE);
+  sb.setThumbHoverColor(GRAY);
+  sb.setNormalizedValue(0.5f);
+  Button button(btn1, text);
+  Button button2(
+      btn2,
+      text,
+      nullptr,  // onHold
+      [&]() { changeBGColor(BLACK); }   // onClickFinished
+  );
+  button2.setText("A");
 
   while (!WindowShouldClose()) {
     BeginDrawing();
     ClearBackground(bgColor);
     button.Update();
+    button2.Update();
+    sb.Update();
+    sb2.Update();
     EndDrawing();
   }
 

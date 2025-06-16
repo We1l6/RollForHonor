@@ -11,7 +11,7 @@
 class RectanglePro : public Rectangle
 {
 public:
-	
+	RectanglePro();
 	RectanglePro(Vector2 centerPos, Vector2 size, float rotation,
 		float cornerRadius, Color color);
 
@@ -29,13 +29,16 @@ public:
 	void setSegmentAmount(int segmentAmount) { m_segmentAmount = std::max(segmentAmount, 3); }
 	void setSize(Vector2 size);
 	void setPosition(Vector2 position);
-	void setBounds(RectanglePro bounds);
+	void setBounds(RectanglePro& bounds);
 	
 
 	void Draw();
 	
 private:
 	static constexpr int DEFAULT_SEGMENT_AMOUNT = 16; //Number of segments for rounded corners
+	static constexpr float DEFAULT_CORNER_RADIUS = 0.0f; //Default corner radius
+	static constexpr Color DEFAULT_COLOR = WHITE; //Default color
+
 	int m_segmentAmount;
 	float m_rotation;
 	float m_cornerRadius;

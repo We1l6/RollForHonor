@@ -14,7 +14,7 @@ public:
 	TextPro();
 	explicit TextPro(const std::string& text);
 	TextPro(const std::string& text, Color color);
-	TextPro(const std::string& text, Font font, int fontSize, Color color,
+	TextPro(const std::string& text, Font font, float fontSize, Color color,
 		    Vector2 position, Vector2 origin, float rotation, float spacing);
     
     void Draw();
@@ -50,12 +50,12 @@ private:
 	static constexpr Vector2 DEFAULT_ORIGIN = { 0, 0 };
 
     std::string m_text = "Default Text";
-    Color m_color = WHITE;
-    Vector2 m_position = { 0, 0 };
-    Vector2 m_origin = { 0, 0 };
-    float m_rotation = 0.0f;
-    float m_spacing = 0.0f;
-    float m_fontSize = 20.0f;
+    Color m_color;
+    Vector2 m_position;
+    Vector2 m_origin;
+    float m_rotation;
+    float m_spacing;
+    float m_fontSize;
     Font m_font = GetFontDefault();
 
     void CenterOrigin();
