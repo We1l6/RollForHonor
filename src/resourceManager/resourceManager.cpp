@@ -2,17 +2,17 @@
 
 std::shared_ptr<Texture2D>
 ResourceManager::LoadTexture(const std::string &path) {
-  return TextureManager::LoadTexture(path);
+  return TextureManager::GetInstance().LoadTexture(path);
 }
 
 std::shared_ptr<Sound> ResourceManager::LoadSound(const std::string &path) {
-  return SoundManager::LoadSound(path);
+  return SoundManager::GetInstance().LoadSound(path);
 }
 
 std::shared_ptr<Font> ResourceManager::LoadFont(const std::string &path) {
-  return FontManager::LoadFont(path);
+  return FontManager::GetInstance().LoadFont(path);
 }
 
-static void UnloadTextures() { TextureManager::UnloadAll(); }
-static void UnloadSounds() { SoundManager::UnloadAll(); }
-static void UnloadFonts() { SoundManager::UnloadAll(); }
+void UnloadTextures() { TextureManager::GetInstance().UnloadAll(); }
+void UnloadSounds() { SoundManager::GetInstance().UnloadAll(); }
+void UnloadFonts() { FontManager::GetInstance().UnloadAll(); }

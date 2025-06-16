@@ -1,4 +1,13 @@
 #pragma once
+
+/**
+ * @file soundManager.h
+ * @brief Sound Manager
+ * @details With Meyer's Singleton, I retrieve instances and load Sounds.
+ * @author We1l6.f
+ * @date 13/06/2025
+ */
+
 #include "raylib.h"
 #include <memory>
 #include <string>
@@ -6,9 +15,14 @@
 
 class SoundManager {
 public:
-  static std::shared_ptr<Sound> LoadSound(const std::string &path);
-  static void UnloadAll();
+  static SoundManager &GetInstance();
+  SoundManager(const SoundManager &) = delete;
+  SoundManager &operator=(const SoundManager &) = delete;
+  std::shared_ptr<Sound> LoadSound(const std::string &path);
+  void UnloadAll();
 
 private:
-  static std::unordered_map<std::string, std::shared_ptr<Sound>> m_sounds;
+  SoundManager() = default;
+  ~SoundManager() { UnloadAll(); }
+  std::unordered_map<std::string, std::shared_ptr<Sound>> m_sounds;
 };

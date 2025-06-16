@@ -1,7 +1,5 @@
 #include "soundManager.h"
 
-std::unordered_map<std::string, std::shared_ptr<Sound>> SoundManager::m_sounds;
-
 std::shared_ptr<Sound> SoundManager::LoadSound(const std::string &path) {
   auto it = m_sounds.find(path);
   if (it != m_sounds.end()) {
@@ -20,3 +18,8 @@ std::shared_ptr<Sound> SoundManager::LoadSound(const std::string &path) {
 }
 
 void SoundManager::UnloadAll() { m_sounds.clear(); }
+
+SoundManager &SoundManager::GetInstance() {
+  static SoundManager instance;
+  return instance;
+}

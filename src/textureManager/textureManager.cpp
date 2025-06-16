@@ -1,9 +1,6 @@
 #include "textureManager.h"
 #include "raylib.h"
 
-std::unordered_map<std::string, std::shared_ptr<Texture2D>>
-    TextureManager::m_textures;
-
 std::shared_ptr<Texture2D>
 TextureManager::LoadTexture(const std::string &path) {
   auto it = m_textures.find(path);
@@ -24,3 +21,7 @@ TextureManager::LoadTexture(const std::string &path) {
 }
 
 void TextureManager::UnloadAll() { m_textures.clear(); }
+TextureManager &TextureManager::GetInstance() {
+  static TextureManager instance;
+  return instance;
+}

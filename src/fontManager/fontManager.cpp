@@ -1,7 +1,5 @@
 #include "fontManager.h"
 
-std::unordered_map<std::string, std::shared_ptr<Font>> FontManager::m_fonts;
-
 std::shared_ptr<Font> FontManager::LoadFont(const std::string &path) {
   auto it = m_fonts.find(path);
   if (it != m_fonts.end()) {
@@ -20,3 +18,8 @@ std::shared_ptr<Font> FontManager::LoadFont(const std::string &path) {
 }
 
 void FontManager::UnloadAll() { m_fonts.clear(); }
+
+FontManager &FontManager::GetInstance() {
+  static FontManager instance;
+  return instance;
+}
