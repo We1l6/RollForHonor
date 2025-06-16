@@ -9,6 +9,10 @@ add_executable(RollForHonor
   "userInterface/UIUtils/TextPro/TextPro.cpp" "userInterface/UIUtils/TextPro/TextPro.h"
   "userInterface/scrollBar/scrollBar.cpp" "userInterface/scrollBar/scrollBar.h"
   "loggerManager/loggerManager.cpp" "loggerManager/loggerManager.h"
+  "resourceManager/resourceManager.cpp" "resourceManager/resourceManager.h"
+  "soundManager/soundManager.cpp" "soundManager/soundManager.h"
+  "textureManager/textureManager.cpp" "textureManager/textureManager.h"
+  "fontManager/fontManager.cpp" "fontManager/fontManager.h"
 )
 
 # Link the executable target RollForHonor with the specified libraries privately
