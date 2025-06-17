@@ -45,7 +45,7 @@ public:
 
 	//Setters
 	void setColor(Color color) { m_color = color; }
-	void setTexture(Texture2D texture) { m_texture = texture; }
+	void setTexture(Texture2D texture) { m_texture = texture; m_hasTexture = true; }
 	void clearTexture() { m_hasTexture = false; }
 	void setSegmentAmount(int amount) { m_segmentAmount = std::max(amount, 3); }
 

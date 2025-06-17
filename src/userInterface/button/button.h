@@ -52,21 +52,24 @@ public:
 	Button(const RectanglePro& rect, const UISkin& skin, const TextPro& text);
 	Button(const RectanglePro& rect, const UISkin& skin, const TextPro& text, ButtonCallback onHold,
 		ButtonCallback onClickFinished);
-	Button(const RectanglePro& rect, const UISkin& skin, const TextPro& text, ButtonCallback onHold,
-		ButtonCallback onClickFinished, Texture2D texture);
 
 	//Getters
 	[[nodiscard]] bool isHovered() const { return m_hovered; }
 	[[nodiscard]] bool isDragging() const { return m_isDragging; }
 	[[nodiscard]] ButtonCallback getOnHold() const { return m_onHold; }
 	[[nodiscard]] ButtonCallback getOnClickFinished() const { return m_onClickFinished; }
+	[[nodiscard]] Color getBaseColor() const { return m_baseColor; }
+	[[nodiscard]] Texture2D getTexture() const { return m_skin.getTexture(); }
+	[[nodiscard]] Texture2D getBaseTexture() const { return m_baseTexture; }
+
 
 	//Setters
 	void setOnHold(ButtonCallback onHold) { m_onHold = onHold; }
 	void setOnClickFinished(ButtonCallback onClickFinished) { m_onClickFinished = onClickFinished; }
 	void setBaseColor(Color baseColor) { m_baseColor = baseColor; }
+	void setColor(Color color) { m_skin.setColor(color); }
 	void setHoverColor(Color hoverColor) { m_hoverColor = hoverColor; }
-
+	void setTexture(Texture2D texture) { m_skin.setTexture(texture); }
 	void Update() override;
 	void Draw() override;
 private:
@@ -81,12 +84,11 @@ private:
 	bool m_hovered = false;
 	bool m_isDragging = false; 
 
+	Texture2D m_baseTexture;
+
 	Vector2 m_baseSize = { 0, 0 };
 	Color m_baseColor = DEFAULT_COLOR;
 	Color m_hoverColor = DEFAULT_HOVER_COLOR;
-
-	Texture2D m_texture = { 0 };
-	bool m_hasTexture = false;
 
 	static constexpr Color DEFAULT_COLOR = { 0, 122, 204, 255 };
 	static constexpr Color DEFAULT_HOVER_COLOR = { 100, 170, 230, 255 };

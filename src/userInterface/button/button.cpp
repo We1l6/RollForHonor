@@ -10,7 +10,6 @@ Button::Button(const RectanglePro& rect, const UISkin& skin, const TextPro& text
 {
 	m_baseSize = m_rect.getSize();
 	m_baseColor = m_skin.getColor();
-	m_hasTexture = false;
 
 	m_onHold = [this]() { defaultOnHold(); };
 	m_onClickFinished = [this]() { defaultOnClickFinished(); };
@@ -19,22 +18,14 @@ Button::Button(const RectanglePro& rect, const UISkin& skin, const TextPro& text
 Button::Button(const RectanglePro& rect, const UISkin& skin, const TextPro& text,
 	ButtonCallback onHold,
 	ButtonCallback onClickFinished) 
-	: UserInterface(rect, skin, text), m_onHold(onHold), m_onClickFinished(onClickFinished)
+	: UserInterface(rect, skin, text), m_onHold(onHold), m_onClickFinished(onClickFinished),
+	m_baseTexture(skin.getTexture())
 {
 	m_baseSize = m_rect.getSize();
 	m_baseColor = m_skin.getColor();
-	m_hasTexture = false;
+
 }
 
-Button::Button(const RectanglePro& rect, const UISkin& skin, const TextPro& text, ButtonCallback onHold,
-	ButtonCallback onClickFinished, Texture2D texture)
-	: UserInterface(rect, skin, text), m_onHold(onHold), m_onClickFinished(onClickFinished),
-	m_texture(texture)
-{
-	m_baseSize = m_rect.getSize();
-	m_baseColor = m_skin.getColor();
-	m_hasTexture = true;
-}
 
 void Button::Draw()
 {
