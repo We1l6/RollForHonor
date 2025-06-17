@@ -1,42 +1,59 @@
 #include "scrollBar.h"
 
 ScrollBar::ScrollBar(
-	const RectanglePro& rect)
-	: ScrollBar(rect, TextPro(), DEFAULT_RANGE_MIN, DEFAULT_RANGE_MAX, true) 
+	const RectanglePro& barRect,
+	const UISkin& barSkin
+)
+	: ScrollBar(
+		barRect,
+		RectanglePro{
+			{ barRect.getPosition().x - barRect.getSize().x / 2.0f + DEFAULT_THUMB_SIZE / 2.0f,
+			  barRect.getPosition().y },
+			{ DEFAULT_THUMB_SIZE, barRect.getSize().y },
+			0.0f,
+			barRect.getCornerRadius()
+		},
+		barSkin,
+		barSkin,
+		DEFAULT_RANGE_MIN,
+		DEFAULT_RANGE_MAX,
+		true
+	)
+{
+}
+
+ScrollBar::ScrollBar(
+	const RectanglePro& barRect, 
+	const RectanglePro& thumbRect,
+	const UISkin& barSkin,
+	const UISkin& thumbSkin)
+	: ScrollBar(barRect, thumbRect, barSkin, thumbSkin, DEFAULT_RANGE_MIN, DEFAULT_RANGE_MAX, true)
 {
 }
 ScrollBar::ScrollBar(
-	const RectanglePro& rect, 
-	const TextPro& text)
-	: ScrollBar(rect, text, DEFAULT_RANGE_MIN, DEFAULT_RANGE_MAX, true)
-{
-}
-ScrollBar::ScrollBar(
-	const RectanglePro& rect,
-	const TextPro& text,
+	const RectanglePro& barRect,
+	const RectanglePro& thumbRect,
+	const UISkin& barSkin,
+	const UISkin& thumbSkin,
 	float rangeMin,
 	float rangeMax,
 	bool horizontal)
-	: UserInterface(rect, text),
-	m_barRect(rect),
+	: UserInterface(barRect, barSkin),
+	m_thumbSkin(thumbSkin),
 	m_horizontal(horizontal),
-	m_text(text),
 	m_rangeMin(rangeMin),
 	m_rangeMax(rangeMax),
 	m_value(rangeMin),
-	m_step(DEFAULT_STEP),
-	m_thumbSize(DEFAULT_THUMB_SIZE),
-	m_thumbPosition(0.0f)
+	m_step(DEFAULT_STEP)
 {
-	RectanglePro thumbRect;
+	//RectanglePro thumbRect;
 
-	if (horizontal) {
+	/*if (horizontal) {
 		thumbRect = RectanglePro{
 			{rect.getPosition().x - rect.getSize().x / 2.0f + DEFAULT_THUMB_SIZE / 2.0f, rect.getPosition().y},
 			{DEFAULT_THUMB_SIZE, rect.getSize().y},
 			0.0f,
-			rect.getCornerRadius(),
-			BLACK
+			rect.getCornerRadius()
 		};
 	}
 	else {
@@ -44,14 +61,14 @@ ScrollBar::ScrollBar(
 			{rect.getPosition().x, rect.getPosition().y - rect.getSize().y / 2.0f + DEFAULT_THUMB_SIZE / 2.0f},
 			{rect.getSize().x, DEFAULT_THUMB_SIZE},
 			0.0f,
-			rect.getCornerRadius(),
-			BLACK
+			rect.getCornerRadius()
 		};
 
-	}
+	}*/
 
 	m_thumbButton = Button(
 		thumbRect,
+		thumbSkin,
 		TextPro(""),
 		[this]() { updateThumbPosition(); }, // onHold callback
 		nullptr
@@ -83,7 +100,7 @@ void ScrollBar::Update()
 
 void ScrollBar::Draw()
 {	
-	m_barRect.Draw(); 
+	m_skin.Draw(m_rect); 
 	m_thumbButton.Draw();
 	m_text.Draw();
 }
@@ -91,8 +108,8 @@ void ScrollBar::Draw()
 void ScrollBar::updateThumbPosition()
 {
 	Vector2 mousePos = GetMousePosition();
-	Vector2 barCenter = m_barRect.getPosition();
-	Vector2 barSize = m_barRect.getSize();
+	Vector2 barCenter = m_rect.getPosition();
+	Vector2 barSize = m_rect.getSize();
 	Vector2 thumbSize = m_thumbButton.getSize();
 
 	Vector2 barPos = {
@@ -152,8 +169,8 @@ void ScrollBar::updateThumbPosition()
 
 void ScrollBar::updateValueFromThumbPosition()
 {
-	Vector2 barCenter = m_barRect.getPosition();
-	Vector2 barSize = m_barRect.getSize();
+	Vector2 barCenter = m_rect.getPosition();
+	Vector2 barSize = m_rect.getSize();
 	Vector2 thumbSize = m_thumbButton.getSize();
 	float thumbPos = m_horizontal ? m_thumbButton.getPosition().x : m_thumbButton.getPosition().y;
 
@@ -177,8 +194,8 @@ void ScrollBar::updateValueFromThumbPosition()
 void ScrollBar::updatePositionFromValue()
 {
 	float normalizedValue = (m_value - m_rangeMin) / (m_rangeMax - m_rangeMin);
-	Vector2 barCenter = m_barRect.getPosition();
-	Vector2 barSize = m_barRect.getSize();
+	Vector2 barCenter = m_rect.getPosition();
+	Vector2 barSize = m_rect.getSize();
 	Vector2 thumbSize = m_thumbButton.getSize();
 
 	if (m_horizontal) {
@@ -199,7 +216,6 @@ void ScrollBar::setValue(float value) {
 	if (value < m_rangeMin) value = m_rangeMin;
 	if (value > m_rangeMax) value = m_rangeMax;
 
-	// Округляем к шагу
 	float stepsCount = std::round((value - m_rangeMin) / m_step);
 	m_value = m_rangeMin + stepsCount * m_step;
 

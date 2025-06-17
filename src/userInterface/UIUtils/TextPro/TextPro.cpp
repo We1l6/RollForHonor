@@ -2,7 +2,7 @@
 
 TextPro::TextPro() : TextPro("") {}
 
-TextPro::TextPro(const std::string& text) : TextPro(text, m_color) {}
+TextPro::TextPro(const std::string& text) : TextPro(text, DEFAULT_COLOR) {}
 
 TextPro::TextPro(const std::string& text, Color color)
     : TextPro(text, GetFontDefault(), DEFAULT_FONT_SIZE, DEFAULT_COLOR, DEFAULT_POSITION, 
