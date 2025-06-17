@@ -1,38 +1,23 @@
 #include "RectanglePro.h"
 
 RectanglePro::RectanglePro()
-	: RectanglePro({ 0, 0 }, { 100, 100 }, 0.0f, DEFAULT_CORNER_RADIUS, DEFAULT_COLOR) {
+	: RectanglePro({ 0, 0 }, { 100, 100 }, 0.0f, DEFAULT_CORNER_RADIUS) {
 }
 
 RectanglePro::RectanglePro(Vector2 centerPos, Vector2 size, float rotation,
-    float cornerRadius, Color color)
+    float cornerRadius)
     : Rectangle{ centerPos.x - size.x / 2.0f, centerPos.y - size.y / 2.0f,
                 size.x, size.y },
-    m_rotation(rotation), m_cornerRadius(cornerRadius), m_color(color)
+    m_rotation(rotation), m_cornerRadius(cornerRadius)
 {
 	m_segmentAmount = DEFAULT_SEGMENT_AMOUNT;
 }
 
-void RectanglePro::Draw() {
-    rlPushMatrix();
-
-    Vector2 center = { x + width / 2, y + height / 2 };
-
-    rlTranslatef(center.x, center.y, 0.0f);
-    rlRotatef(m_rotation, 0.0f, 0.0f, 1.0f);
-
-    float normalizedRadius =
-        m_cornerRadius / std::min(width, height);
-    if (normalizedRadius < 0.0f)
-        normalizedRadius = 0.0f;
-    if (normalizedRadius > 1.0f)
-        normalizedRadius = 1.0f;
-
-    DrawRectangleRounded(
-        { -width / 2, -height / 2, width, height },
-        normalizedRadius, m_segmentAmount, m_color);
-
-    rlPopMatrix();
+Rectangle RectanglePro::getRectangle() const
+{
+    Vector2 pos = getPosition();
+    Vector2 size = getSize();
+    return Rectangle{ pos.x - (size.x / 2.0f), pos.y - (size.y / 2.0f), size.x, size.y };
 }
 
 void RectanglePro::setSize(Vector2 size) {

@@ -8,6 +8,7 @@ add_executable(RollForHonor
   "userInterface/UIUtils/RectanglePro/RectanglePro.cpp" "userInterface/UIUtils/RectanglePro/RectanglePro.h"
   "userInterface/UIUtils/TextPro/TextPro.cpp" "userInterface/UIUtils/TextPro/TextPro.h"
   "userInterface/scrollBar/scrollBar.cpp" "userInterface/scrollBar/scrollBar.h"
+  "userInterface/UIUtils/UISkin/UISkin.cpp" "userInterface/UIUtils/UISkin/UISkin.h"
   "loggerManager/loggerManager.cpp" "loggerManager/loggerManager.h"
   "resourceManager/resourceManager.cpp" "resourceManager/resourceManager.h"
   "soundManager/soundManager.cpp" "soundManager/soundManager.h"

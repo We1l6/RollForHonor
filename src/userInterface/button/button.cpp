@@ -1,31 +1,49 @@
 #include "button.h"
 
 Button::Button()
-	: Button(RectanglePro(), TextPro())
+	: Button(RectanglePro(), UISkin(), TextPro())
 {
 }
 
-Button::Button(const RectanglePro& rect, const TextPro& text)
-	: UserInterface(rect, text)
+Button::Button(const RectanglePro& rect, const UISkin& skin, const TextPro& text)
+	: UserInterface(rect, skin, text)
 {
 	m_baseSize = m_rect.getSize();
-	m_baseColor = m_rect.getColor();
+	m_baseColor = m_skin.getColor();
+	m_hasTexture = false;
 
 	m_onHold = [this]() { defaultOnHold(); };
 	m_onClickFinished = [this]() { defaultOnClickFinished(); };
 }
 
-Button::Button(const RectanglePro& rect, const TextPro& text,
+Button::Button(const RectanglePro& rect, const UISkin& skin, const TextPro& text,
 	ButtonCallback onHold,
 	ButtonCallback onClickFinished) 
-	: UserInterface(rect, text), m_onHold(onHold), m_onClickFinished(onClickFinished)
+	: UserInterface(rect, skin, text), m_onHold(onHold), m_onClickFinished(onClickFinished)
 {
 	m_baseSize = m_rect.getSize();
-	m_baseColor = m_rect.getColor();
+	m_baseColor = m_skin.getColor();
+	m_hasTexture = false;
 }
+
+Button::Button(const RectanglePro& rect, const UISkin& skin, const TextPro& text, ButtonCallback onHold,
+	ButtonCallback onClickFinished, Texture2D texture)
+	: UserInterface(rect, skin, text), m_onHold(onHold), m_onClickFinished(onClickFinished),
+	m_texture(texture)
+{
+	m_baseSize = m_rect.getSize();
+	m_baseColor = m_skin.getColor();
+	m_hasTexture = true;
+}
+
+void Button::Draw()
+{
+	m_skin.Draw(m_rect);
+	m_text.Draw();
+}
+
 void Button::Update()
 {
-	Draw();
 	Vector2 mousePosition = GetMousePosition();
 
 	if (m_isDragging) {
@@ -40,7 +58,6 @@ void Button::Update()
 		m_hovered = CheckCollisionPointRec(mousePosition, m_rect);
 
 		if (m_hovered) {
-			m_rect.setColor(m_hoverColor);
 			if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
 				m_isDragging = true;
 				safeInvoke(m_onHold);
@@ -55,18 +72,18 @@ void Button::Update()
 void Button::defaultOnHold()
 {
 	this->setSize({ m_baseSize.x + SIZE_OFFSET_ON_HOLD, m_baseSize.y + SIZE_OFFSET_ON_HOLD });
-	this->setColor(HOLD_COLOR);
+	m_skin.setColor(HOLD_COLOR);
 }
 void Button::defaultOnClickFinished()
 {
 	this->setSize(m_baseSize);
-	this->setColor(m_baseColor);
+	m_skin.setColor(m_baseColor);
 }
 
 void Button::resetToDefault()
 {
 	this->setSize(m_baseSize);
-	this->setColor(m_baseColor);
+	m_skin.setColor(m_baseColor);
 	m_hovered = false;
 }
 
@@ -76,9 +93,6 @@ void Button::safeInvoke(const ButtonCallback& callback)
 		if (callback) callback();
 	}
 	catch (const std::exception& e) {
-		//LOG_ERROR("Button callback threw an exception: {}", e.what());
-	}
-	catch (...) {
-		//LOG_ERROR("Unknown exception in button callback");
+		LOG_ERROR("Button callback threw an exception: {}", e.what());
 	}
 }
