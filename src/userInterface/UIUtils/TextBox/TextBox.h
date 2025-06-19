@@ -37,7 +37,7 @@
 
 #include "raylib.h"
 
-#include "../../Button/Button.h"
+#include "../../button/button.h"
 
 #include <string>
 #include <vector>
