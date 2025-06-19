@@ -1,11 +1,25 @@
 /**
  * @file UISkin.h
- * @brief UI skin class for visual styling of interface elements
- * @details
+ * @brief UI skin class for visual styling of interface elements.
+ *
  * Encapsulates visual properties including color, texture, and segment detail used for rendering UI components.
- * Supports initialization with either a solid color or a texture.
- * Provides getters and setters to access and modify skin properties.
- * The Draw() method renders the skin on a specified RectanglePro area.
+ * Supports initialization with either a solid color or a texture. Provides getters and setters to access and modify
+ * skin properties such as color, texture, and segment amount. The Draw() method renders the skin onto a specified
+ * RectanglePro area using raylib and rlgl.
+ *
+ * @note setSegmentAmount() clamps values to a minimum of 3. Use clearTexture() to disable texture usage.
+ *
+ * @example
+ * UISkin skin(BLUE);
+ * RectanglePro rect(100, 100, 200, 50);
+ *
+ * while (!WindowShouldClose())
+ * {
+ *     BeginDrawing();
+ *     ClearBackground(RAYWHITE);
+ *     skin.Draw(rect);
+ *     EndDrawing();
+ * }
  *
  * @author koliruslik
  * @date 17/06/2025
@@ -19,18 +33,6 @@
 #include "../RectanglePro/RectanglePro.h"
 #include <algorithm>
 
-
-/**
- * @brief UISkin class represents the visual style of UI elements.
- *
- * Encapsulates color, texture, and segment amount for rendering UI components.
- *
- * Constructors allow initialization with a color or texture.
- *
- * Getters and setters provide access to and modification of the skin properties.
- *
- * The Draw() method renders the skin onto a given RectanglePro area.
- */
 class UISkin
 {
 public:

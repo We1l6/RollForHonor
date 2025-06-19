@@ -1,27 +1,13 @@
 /**
  * @file TextPro.h
- * @brief Advanced text rendering class with rotation and origin control
- * @details
- * Manages text display with customizable font, size, color, spacing, rotation, and origin.
- * Automatically recenters the origin when text, font, or font size changes.
- * The origin affects rotation and positioning of the text.
- * Draw() must be called each frame to render the text.
+ * @brief Advanced text rendering class with rotation and origin control.
  *
- * @author koliruslik
- * @date 15/06/2025
- */
-
-#pragma once
-
-#include <string>
-
-#include "raylib.h"
-
-/**
- * @note
- * Changing the text, font, or font size will automatically recenter the origin.
+ * Manages text display with customizable font, size, color, spacing, rotation, and origin.
+ * Automatically recenters the origin when text, font, or font size changes, affecting both
+ * rotation and positioning. Make sure to call Draw() each frame to render the text.
+ *
+ * @note Changing the text, font, or font size will automatically recenter the origin.
  * The origin point affects the rotation and positioning of the text.
- * Make sure to call Draw() to render the text each frame after updating properties.
  *
  * @example
  * TextPro label("Hello, world!", BLACK);
@@ -36,7 +22,17 @@
  *     label.Draw();
  *     EndDrawing();
  * }
+ *
+ * @author koliruslik
+ * @date 15/06/2025
  */
+
+#pragma once
+
+#include <string>
+
+#include "raylib.h"
+
 class TextPro
 {
 public:
@@ -68,14 +64,6 @@ public:
 	
 	void Draw();
 private:
-
-	static constexpr float DEFAULT_FONT_SIZE = 20.0f;
-	static constexpr float DEFAULT_ROTATION = 0.0f;
-	static constexpr float DEFAULT_SPACING = 1.5f;
-    static constexpr Color DEFAULT_COLOR = BLACK;
-	static constexpr Vector2 DEFAULT_POSITION = { 0, 0 };
-	static constexpr Vector2 DEFAULT_ORIGIN = { 0, 0 };
-
     std::string m_text = "Default Text";
     Color m_color;
     Vector2 m_position;
@@ -86,4 +74,11 @@ private:
     Font m_font = GetFontDefault();
 
     void CenterOrigin();
+
+	static constexpr float DEFAULT_FONT_SIZE = 20.0f;
+	static constexpr float DEFAULT_ROTATION = 0.0f;
+	static constexpr float DEFAULT_SPACING = 1.5f;
+    static constexpr Color DEFAULT_COLOR = BLACK;
+	static constexpr Vector2 DEFAULT_POSITION = { 0, 0 };
+	static constexpr Vector2 DEFAULT_ORIGIN = { 0, 0 };
 };

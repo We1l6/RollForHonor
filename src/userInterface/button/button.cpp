@@ -27,38 +27,6 @@ Button::Button(const RectanglePro& rect, const UISkin& skin, const TextPro& text
 }
 
 
-void Button::Draw()
-{
-	m_skin.Draw(m_rect);
-	m_text.Draw();
-}
-
-void Button::Update()
-{
-	Vector2 mousePosition = GetMousePosition();
-
-	if (m_isDragging) {
-		safeInvoke(m_onHold);
-
-		if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
-			safeInvoke(m_onClickFinished);
-			m_isDragging = false;
-		}
-	}
-	else {
-		m_hovered = CheckCollisionPointRec(mousePosition, m_rect);
-
-		if (m_hovered) {
-			if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-				m_isDragging = true;
-				safeInvoke(m_onHold);
-			}
-		}
-		else {
-			resetToDefault();
-		}
-	}
-}
 
 void Button::defaultOnHold()
 {
@@ -85,5 +53,45 @@ void Button::safeInvoke(const ButtonCallback& callback)
 	}
 	catch (const std::exception& e) {
 		LOG_ERROR("Button callback threw an exception: {}", e.what());
+	}
+}
+
+void Button::Draw()
+{
+	m_skin.Draw(m_rect);
+	m_text.Draw();
+}
+
+void Button::Update()
+{
+	Vector2 mousePosition = GetMousePosition();
+
+	if (m_isDragging)
+	{
+		safeInvoke(m_onHold);
+
+		if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON))
+		{
+			safeInvoke(m_onClickFinished);
+			m_isDragging = false;
+		}
+	}
+	else 
+	{
+		m_hovered = CheckCollisionPointRec(mousePosition, m_rect);
+
+		if (m_hovered)
+		{
+			this->setColor(m_hoverColor);
+			if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+			{
+				m_isDragging = true;
+				safeInvoke(m_onHold);
+			}
+		}
+		else
+		{
+			resetToDefault();
+		}
 	}
 }

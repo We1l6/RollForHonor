@@ -3,6 +3,10 @@
 
 #include <raylib.h>
 
+#include "userInterface/UIUtils/TextBox/TextBox.h"
+#include "resourceManager/resourceManager.h"
+
+
 int main() {
   InitWindow(1920, 1080, "Hello World");
   SetTargetFPS(60);

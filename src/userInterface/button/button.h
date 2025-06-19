@@ -1,30 +1,16 @@
-#pragma once
-
 /**
  * @file Button.h
- * @brief Button UI element class
- * @details
+ * @brief Button UI element class.
+ *
  * Implements a clickable button with hover and drag states.
  * Supports setting callbacks for OnHold and OnClickFinished events.
  * Optionally displays a texture.
  * Update() must be called each frame to handle input and state changes.
  * Draw() renders the button on screen.
  *
- * @author koliruslik
- * @date 14/06/2025
- */
-
-#include <functional>
-
-#include "../userInterface.h"
-#include "../../loggerManager/loggerManager.h"
-
-using ButtonCallback = std::function<void()>;
-
-/**
  * @note
  * The button supports hover and drag states, changing colors accordingly.
- * You should assign OnHold and OnClickFinished callbacks to handle button events.
+ * Assign OnHold and OnClickFinished callbacks to handle button events.
  * The button can optionally display a texture.
  * Remember to call Update() every frame to process input and state changes,
  * and call Draw() to render the button.
@@ -34,17 +20,28 @@ using ButtonCallback = std::function<void()>;
  *     RectanglePro{50, 50, 100, 40},  // button rectangle
  *     skin,                          // UISkin for button
  *     text,                          // TextPro for button label
- *     []() {  on hold callback code  },
- * []() {  on click finished callback code  }
+ *     []() {  on hold callback code },
+ * []() {  on click finished callback code }
  * );
  *
- *	 while (!WindowShouldClose())
+ *   while (!WindowShouldClose())
  *   {
  *		myButton.Update();
  *		myButton.Draw();
- *
  *   }
+ *
+ * @author koliruslik
+ * @date 14 / 06 / 2025
  */
+
+#pragma once
+
+#include <functional>
+
+#include "../userInterface.h"
+#include "../../loggerManager/loggerManager.h"
+
+using ButtonCallback = std::function<void()>;
 
 class Button : public UserInterface {
 public:
