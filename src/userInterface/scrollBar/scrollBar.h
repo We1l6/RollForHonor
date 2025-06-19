@@ -1,13 +1,37 @@
 /**
  * @file ScrollBar.h
- * @brief Scroll bar UI element class
- * @details
- * Implements a scroll bar with a draggable thumb to select a value within a defined range.
- * Supports horizontal and vertical orientations.
- * Value is clamped between rangeMin and rangeMax, with optional step increments.
- * Thumb colors can be customized.
- * Update() must be called each frame to process input and update state.
- * Draw() renders the scroll bar and its thumb.
+ * @brief Scroll bar UI element class with range-based thumb dragging.
+ *
+ * Implements a scroll bar with a draggable thumb that allows selecting a value within a specified range.
+ * Supports both horizontal and vertical orientations. The current value is clamped between `rangeMin` and `rangeMax`,
+ * and may optionally increment in discrete steps. The appearance of the scroll bar and thumb is customizable via `UISkin`.
+ *
+ * The `Update()` method must be called every frame to process input and update the scroll bar state.
+ * Use `Draw()` each frame to render the bar and thumb.
+ *
+ * @note
+ * - When setting the value or normalized value, it will be clamped to the valid range.
+ * - Custom thumb color and hover color can be set through dedicated setters.
+ * - If the step does not evenly divide the range, precise alignment with `rangeMin` or `rangeMax` is not guaranteed.
+ *
+ * @example
+ * ScrollBar scrollBar(
+ *     RectanglePro{10, 10, 200, 20},  // Bar rectangle
+ *     RectanglePro{0, 0, 20, 20},     // Thumb rectangle
+ *     barSkin,                        // UISkin for bar
+ *     thumbSkin,                      // UISkin for thumb
+ *     0.0f,                           // rangeMin
+ *     100.0f,                         // rangeMax
+ *     true                            // horizontal orientation
+ * );
+ *
+ * while (!WindowShouldClose())
+ * {
+ *     scrollBar.Update();
+ *     scrollBar.Draw();
+ *     float value = scrollBar.getValue();
+ *     // Use the scroll bar value for something...
+ * }
  *
  * @author koliruslik
  * @date 16/06/2025
@@ -18,35 +42,7 @@
 
 #include "../button/button.h"
 
-/**
- * @note
- * When setting the value or normalized value, the value is clamped within the range [rangeMin, rangeMax].
- * The thumb color and hover color can be customized via the corresponding setters.
- * Make sure to call Update() each frame to handle user input and update the scroll bar state,
- * and call Draw() to render the scroll bar and thumb.
- *
- * Be aware that if the step value does not evenly divide the range,
- * it may cause issues with precisely reaching the rangeMin or rangeMax values.
- *
- * @example
- * ScrollBar scrollBar(
- *     RectanglePro{10, 10, 200, 20},  // bar rectangle
- *     RectanglePro{0, 0, 20, 20},     // thumb rectangle
- *     barSkin,                       // UISkin for bar
- *     thumbSkin,                     // UISkin for thumb
- *     0.0f,                         // rangeMin
- *     100.0f,                       // rangeMax
- *     true                          // horizontal
- * );
- *
- * while (!WindowShouldClose())
- * {
- *     scrollBar.Update();
- *     scrollBar.Draw();
- *     float value = scrollBar.getValue();
- *     // Use the scroll bar value for something...
- * }
- */
+
 
 class ScrollBar : public UserInterface
 {

@@ -1,9 +1,39 @@
 /**
- * @file checkBox.h
- * @brief CheckBox UI element for toggling state
- * @details
+ * @file CheckBox.h
+ * @brief CheckBox UI element for toggling state.
+ *
  * Defines a customizable CheckBox component composed of a background and an internal check button.
- * Inherits from UserInterface and internally uses a Button to handle user interaction.
+ * Inherits from UserInterface and internally uses a Button to handle user interaction and callbacks.
+ * Allows full visual customization using `UISkin` for both the box and the check effect.
+ *
+ * The CheckBox toggles its state (`checked` or `unchecked`) when clicked, and you can assign
+ * a callback using `setOnCheck()` to respond to state changes. Visual appearance is updated
+ * automatically via the `UpdateVisual()` method.
+ *
+ * @note
+ * - Call `Update()` each frame to process user interaction.
+ * - Call `Draw()` each frame to render the checkbox and its components.
+ * - Use `setOnCheckEffect()` to define the appearance of the check indicator.
+ *
+ * @example
+ * CheckBox checkBox(
+ *     RectanglePro{50, 50, 50, 50},
+ *     boxSkin
+ * );
+ * checkBox.setOnCheck([]() {
+ *     std::cout << "Checkbox clicked!" << std::endl;
+ * });
+ *
+ * while (!WindowShouldClose())
+ * {
+ *     checkBox.Update();
+ *     checkBox.Draw();
+ *
+ *     if (checkBox.getChecked())
+ *     {
+ *         // Do something when the checkbox is active
+ *     }
+ * }
  *
  * @author koliruslik
  * @date 17/06/2025
@@ -12,40 +42,6 @@
 #pragma once
 
 #include "../button/button.h"
-
-
- /**
-  * @note
-  * The CheckBox toggles its state (`checked` or `unchecked`) when clicked.
-  * The visual appearance (color or texture) updates accordingly via the `UpdateVisual()` method.
-  *
-  * A callback can be set using `setOnCheck()` to respond to the user toggling the checkbox.
-  * The appearance of the check indicator can be customized via `setOnCheckEffect()`
-  * using either a color or texture.
-  *
-  * Make sure to call `Update()` each frame to handle interaction logic,
-  * and `Draw()` to render the checkbox and its components.
-  *
-  * @example
-  * CheckBox checkBox(
-  *     RectanglePro{50, 50, 50, 50},
-  *     boxSkin
-  * );
-  * checkBox.setOnCheck([]() {
-  *     std::cout << "Checkbox clicked!" << std::endl;
-  * });
-  *
-  * while (!WindowShouldClose())
-  * {
-  *     checkBox.Update();
-  *     checkBox.Draw();
-  *
-  *     if (checkBox.getChecked())
-  *     {
-  *         // Do something when the checkbox is active
-  *     }
-  * }
-  */
 
 class CheckBox : UserInterface
 {

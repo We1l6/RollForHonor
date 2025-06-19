@@ -1,15 +1,33 @@
 /**
  * @file UserInterface.h
- * @brief Base class for all UI elements
- * @details
+ * @brief Base class for all UI elements.
+ *
  * Serves as a common interface and foundation for UI components.
- * Encapsulates text, rectangular geometry, and skin styling.
- * Provides basic drawing and updating functionality, intended to be overridden by derived classes.
- * Manages position, size, rotation, and appearance properties.
- * Accessible only via UI elements derived from this base.
+ * Encapsulates text rendering, rectangular geometry, and skin styling.
+ * Provides virtual Draw() and Update() methods for derived classes to override.
+ * Manages visual and positional properties such as position, size, rotation, and corner radius.
+ * Intended to be used as a superclass for interactive UI elements like buttons, sliders, etc.
+ *
+ * @note Inherit from UserInterface to create reusable and styled UI components.
+ * Text and geometry are automatically aligned through internal helpers like updateTextPosition().
+ *
+ * @example
+ * class MyButton : public UserInterface
+ * {
+ *     void Draw() override
+ *     {
+ *         m_skin.Draw(m_rect);
+ *         m_text.Draw();
+ *     }
+ * };
+ *
+ * MyButton btn(...);
+ * btn.setText("Click me");
+ * btn.setPosition({100, 100});
+ * btn.Draw();
  *
  * @author koliruslik
- * @date 17/06/2025
+ * @date 14/06/2025
  */
 
 #pragma once
