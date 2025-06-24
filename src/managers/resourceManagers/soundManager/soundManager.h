@@ -15,14 +15,11 @@
 
 class SoundManager {
 public:
-  static SoundManager &GetInstance();
-  SoundManager(const SoundManager &) = delete;
-  SoundManager &operator=(const SoundManager &) = delete;
   std::shared_ptr<Sound> LoadSound(const std::string &path);
   void UnloadAll();
-
-private:
   SoundManager() = default;
   ~SoundManager() { UnloadAll(); }
+private:
+
   std::unordered_map<std::string, std::shared_ptr<Sound>> m_sounds;
 };

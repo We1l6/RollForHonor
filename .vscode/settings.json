@@ -87,7 +87,9 @@
         "xtree": "cpp",
         "xutility": "cpp",
         "csignal": "cpp",
-        "*.m": "cpp"
+        "*.m": "cpp",
+        "ranges": "cpp",
+        "valarray": "cpp"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }

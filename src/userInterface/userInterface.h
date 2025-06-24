@@ -37,7 +37,7 @@
 #include <cmath>
 #include <string>
 
-#include "../loggerManager/loggerManager.h"
+#include "../managers/loggerManager/loggerManager.h"
 #include "UIUtils/RectanglePro/RectanglePro.h"
 #include "UIUtils/TextPro/TextPro.h"
 #include "UIUtils/UISkin/UISkin.h"
