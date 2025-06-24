@@ -1,0 +1,27 @@
+#include "renderManager.h"
+
+   bool RenderManager::Init(int width, int height, const char* title) {
+        InitWindow(width, height, title);
+        SetTargetFPS(60);
+        return IsWindowReady();
+    }
+
+    void RenderManager::Set2DCamera(Vector2 pos, Vector2 target) {
+
+    }
+
+    void RenderManager::BeginFrame() {
+        BeginDrawing();
+        ClearBackground(BLACK);
+        //BeginMode2D(m_camera);
+    }
+
+    void RenderManager::EndFrame() {
+        //EndMode2D();
+        DrawFPS(10, 10);
+        EndDrawing();
+    }
+
+    void RenderManager::Shutdown() {
+        CloseWindow();     
+    }

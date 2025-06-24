@@ -18,8 +18,3 @@ std::shared_ptr<Font> FontManager::LoadFont(const std::string &path) {
 }
 
 void FontManager::UnloadAll() { m_fonts.clear(); }
-
-FontManager &FontManager::GetInstance() {
-  static FontManager instance;
-  return instance;
-}

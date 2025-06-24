@@ -18,8 +18,3 @@ std::shared_ptr<Sound> SoundManager::LoadSound(const std::string &path) {
 }
 
 void SoundManager::UnloadAll() { m_sounds.clear(); }
-
-SoundManager &SoundManager::GetInstance() {
-  static SoundManager instance;
-  return instance;
-}

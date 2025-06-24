@@ -24,10 +24,7 @@ TextureManager::LoadTexture(const std::string &path) {
 }
 
 void TextureManager::UnloadAll() { m_textures.clear(); }
-TextureManager &TextureManager::GetInstance() {
-  static TextureManager instance;
-  return instance;
-}
+
 
 bool TextureManager::FlipTextureHorizontal(Texture2D &texture) {
   if (texture.id == 0) {

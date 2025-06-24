@@ -39,7 +39,7 @@
 #include <functional>
 
 #include "../userInterface.h"
-#include "../../loggerManager/loggerManager.h"
+#include "../../managers/loggerManager/loggerManager.h"
 
 using ButtonCallback = std::function<void()>;
 

@@ -2,45 +2,31 @@
 #include <fmt/base.h>
 
 #include <raylib.h>
-
+#include "memory"
 #include "userInterface/UIUtils/TextBox/TextBox.h"
-#include "resourceManager/resourceManager.h"
-
+#include "managers/resourceManagers/textureManager/textureManager.h"
+#include "managers/resourceManagers/fontManager/fontManager.h"
+#include "managers/resourceManagers/soundManager/soundManager.h"
+#include "managers/renderManager/renderManager.h"
 
 int main() {
-  InitWindow(1920, 1080, "Hello World");
-  SetTargetFPS(60);
-  while (!WindowShouldClose()) {
-    ClearBackground(WHITE);
-    EndDrawing();
+  auto renderManager = std::make_shared<RenderManager>();
+  auto textureManager = std::make_shared<TextureManager>();
+  auto soundManager = std::make_shared<SoundManager>();
+  auto fontManager = std::make_shared<FontManager>();
+
+
+  if(renderManager->Init(GetScreenWidth(), GetScreenHeight(), "RollForHonor")){
+    Texture2D playerTexture = *textureManager->LoadTexture("resources/DavidATTACK.png");
+    while (!WindowShouldClose()) {
+      renderManager->BeginFrame();
+      DrawTexture(playerTexture, 0, 0, WHITE);
+      renderManager->EndFrame();
+    } 
   }
-
-  fmt::print("Hello, world!\n");
-
-  spdlog::info("Welcome to spdlog!");
-  spdlog::error("Some error message with arg: {}", 1);
-
-  spdlog::warn("Easy padding in numbers like {:08d}", 12);
-  spdlog::critical(
-      "Support for int: {0:d};  hex: {0:x};  oct: {0:o}; bin: {0:b}", 42);
-  spdlog::info("Support for floats {:03.2f}", 1.23456);
-  spdlog::info("Positional args are {1} {0}..", "too", "supported");
-  spdlog::info("{:<30}", "left aligned");
-
-  spdlog::set_level(spdlog::level::debug); // Set global log level to debug
-  spdlog::debug("This message should be displayed..");
-
-  // change log pattern
-  spdlog::set_pattern("[%H:%M:%S %z] [%n] [%^---%L---%$] [thread %t] %v");
-
-  // Compile time log levels
-  // Note that this does not change the current log level, it will only
-  // remove (depending on SPDLOG_ACTIVE_LEVEL) the call on the release code.
-  SPDLOG_TRACE("Some trace message with param {}", 42);
-  SPDLOG_DEBUG("Some debug message");
-}
-
-void testF(int test, int test2) {
-  spdlog::info("{:<30}", "left aligned");
-  spdlog::info("Positional args are {1} {0}..", "too", "supported");
+  
+  textureManager->UnloadAll();
+  soundManager->UnloadAll();
+  fontManager->UnloadAll();
+  renderManager->Shutdown();
 }
