@@ -16,6 +16,9 @@ add_executable(RollForHonor
   "managers/resourceManagers/textureManager/textureManager.cpp" "managers/resourceManagers/textureManager/textureManager.h"
   "managers/resourceManagers/fontManager/fontManager.cpp" "managers/resourceManagers/fontManager/fontManager.h"
   "managers/renderManager/renderManager.cpp" "managers/renderManager/renderManager.h"
+  "managers/sceneManager/sceneManager.cpp" "managers/sceneManager/sceneManager.h"
+  "scenes/mainMenuScene/mainMenuScene.cpp" "scenes/mainMenuScene/mainMenuScene.h"
+  "scenes/scene/scene.h"
 )
 
 # Link the executable target RollForHonor with the specified libraries privately
