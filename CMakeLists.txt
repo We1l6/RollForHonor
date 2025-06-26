@@ -8,7 +8,7 @@ project(RollForHonor VERSION 1.0 LANGUAGES CXX)
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/")
 
 
-option(ENABLE_DEV_TOOLS "Enable DEV_TOOLS support using imGUI" ON)
+option(ENABLE_DEV_TOOLS "Enable DEV_TOOLS support using imGUI" OFF)
 
 # Include the custom module that defines `add_git_submodule()`
 include(AddGitSubmodule)
