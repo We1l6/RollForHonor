@@ -1,27 +1,42 @@
 #include "renderManager.h"
 
-   bool RenderManager::Init(int width, int height, const char* title) {
-        InitWindow(width, height, title);
-        SetTargetFPS(60);
-        return IsWindowReady();
-    }
+bool RenderManager::Init(int width, int height, const char *title)
+{
+    InitWindow(width, height, title);
+    SetTargetFPS(60);
+    return IsWindowReady();
+}
 
-    void RenderManager::Set2DCamera(Vector2 pos, Vector2 target) {
+void RenderManager::Set2DCamera(Vector2 pos, Vector2 target) {}
 
-    }
+void RenderManager::BeginFrame()
+{
+    BeginDrawing();
+    ClearBackground(BLACK);
 
-    void RenderManager::BeginFrame() {
-        BeginDrawing();
-        ClearBackground(BLACK);
-        //BeginMode2D(m_camera);
+#ifdef ENABLE_DEV_TOOLS
+    if (m_imGuiManager->IsEnabled())
+    {
+        m_imGuiManager->BeginFrame();
     }
+#endif
 
-    void RenderManager::EndFrame() {
-        //EndMode2D();
-        DrawFPS(10, 10);
-        EndDrawing();
-    }
+    // BeginMode2D(m_camera);
+}
 
-    void RenderManager::Shutdown() {
-        CloseWindow();     
+void RenderManager::EndFrame()
+{
+#ifdef ENABLE_DEV_TOOLS
+    if (m_imGuiManager->IsEnabled())
+    {
+        m_imGuiManager->ShowDebugWindow(GetFPS());
+        m_imGuiManager->EndFrame();
     }
+#endif
+
+    // EndMode2D();
+    DrawFPS(10, 10);
+    EndDrawing();
+}
+
+void RenderManager::Shutdown() { CloseWindow(); }
