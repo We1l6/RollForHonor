@@ -11,6 +11,7 @@
 #include <memory>
 #include <raylib.h>
 
+
 int main()
 {
     auto renderManager = std::make_shared<RenderManager>();
@@ -22,7 +23,17 @@ int main()
 
     bool isWorking = renderManager->Init(GetScreenWidth(), GetScreenHeight(),
                                          "RollForHonor");
+#ifdef ENABLE_DEV_TOOLS
+    auto imGuiManager = std::make_shared<ImGuiManager>();
+    if (!imGuiManager->Init())
+    {
+        spdlog::error("Failed to initialize ImGuiManager");
+    }
+#else
+    std::shared_ptr<ImGuiManager> imGuiManager = nullptr;
+#endif
 
+    renderManager->SetImGuiManager(imGuiManager);
     if (isWorking)
     {
         sceneManager->PushScene(std::make_unique<MainMenuScene>());

@@ -8,6 +8,8 @@ project(RollForHonor VERSION 1.0 LANGUAGES CXX)
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/")
 
 
+option(ENABLE_DEV_TOOLS "Enable DEV_TOOLS support using imGUI" ON)
+
 # Include the custom module that defines `add_git_submodule()`
 include(AddGitSubmodule)
 
@@ -28,11 +30,14 @@ add_git_submodule(${PROJECT_SOURCE_DIR}/external/spdlog)
 # 5. raylib - Simple and easy-to-use library to enjoy videogames programming.
 add_git_submodule(${PROJECT_SOURCE_DIR}/external/raylib)
 
-# 6. imGui - bloat-free graphical user interface library for C++.
-add_git_submodule(${PROJECT_SOURCE_DIR}/external/imgui)
+if(ENABLE_DEV_TOOLS)
+    # 6. imGui - bloat-free graphical user interface library for C++.
+    add_git_submodule(${PROJECT_SOURCE_DIR}/external/imgui)
 
-# 7. rlImGui - raylib integration with DearImGui.
-add_git_submodule(${PROJECT_SOURCE_DIR}/external/rlImGui)
+    # 7. rlImGui - raylib integration with DearImGui.
+    add_git_submodule(${PROJECT_SOURCE_DIR}/external/rlImGui)
+endif()
+
 
 # Add main source and test directories as subprojects.
 # - `src/` contains the main application code.

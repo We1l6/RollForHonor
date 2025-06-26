@@ -17,6 +17,7 @@ add_executable(RollForHonor
   "managers/resourceManagers/fontManager/fontManager.cpp" "managers/resourceManagers/fontManager/fontManager.h"
   "managers/renderManager/renderManager.cpp" "managers/renderManager/renderManager.h"
   "managers/sceneManager/sceneManager.cpp" "managers/sceneManager/sceneManager.h"
+  "managers/imGuiManager/imGuiManager.h" "managers/imGuiManager/imGuiManager.cpp"
   "scenes/mainMenuScene/mainMenuScene.cpp" "scenes/mainMenuScene/mainMenuScene.h"
   "scenes/scene/scene.h"
 )
@@ -27,5 +28,14 @@ target_link_libraries(RollForHonor PRIVATE
     fmt::fmt
     nlohmann_json::nlohmann_json
     raylib
+) 
+
+if(ENABLE_DEV_TOOLS)
+message(STATUS "DEV_TOOLS support enabled")
+target_compile_definitions(RollForHonor PRIVATE ENABLE_DEV_TOOLS)
+target_link_libraries(RollForHonor PRIVATE 
     imgui
     rlImGui)
+else()
+    message(STATUS "DEV_TOOLS support disabled")
+endif()
