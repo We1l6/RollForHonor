@@ -28,6 +28,11 @@ add_git_submodule(${PROJECT_SOURCE_DIR}/external/spdlog)
 # 5. raylib - Simple and easy-to-use library to enjoy videogames programming.
 add_git_submodule(${PROJECT_SOURCE_DIR}/external/raylib)
 
+# 6. imGui - bloat-free graphical user interface library for C++.
+add_git_submodule(${PROJECT_SOURCE_DIR}/external/imgui)
+
+# 7. rlImGui - raylib integration with DearImGui.
+add_git_submodule(${PROJECT_SOURCE_DIR}/external/rlImGui)
 
 # Add main source and test directories as subprojects.
 # - `src/` contains the main application code.
