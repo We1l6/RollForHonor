@@ -7,6 +7,7 @@
 #include "managers/resourceManagers/textureManager/textureManager.h"
 #include "managers/sceneManager/sceneManager.h"
 #include "scenes/mainMenuScene/mainMenuScene.h"
+#include "scenes/scene/sceneFactory.h"
 #include "userInterface/UIUtils/TextBox/TextBox.h"
 #include <memory>
 #include <raylib.h>
@@ -36,7 +37,8 @@ int main()
     renderManager->SetImGuiManager(imGuiManager);
     if (isWorking)
     {
-        sceneManager->PushScene(std::make_unique<MainMenuScene>());
+        sceneManager->PushScene(
+            SceneFactory::createScene(SceneType::MAIN_MENU));
         while (!sceneManager->isEmpty())
         {
             float dt = GetFrameTime();

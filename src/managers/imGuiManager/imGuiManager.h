@@ -15,9 +15,12 @@ class ImGuiManager
 
     bool IsEnabled() const;
     void Enable(bool enable);
+
     void ShowDebugWindow(float fps);
+    void ShowPerformanceWindow();
 
   private:
-    bool m_enabled = true;
-    bool m_initialized = false;
+    float m_maxFrameTime{0.0f};
+    bool m_enabled{true};
+    bool m_initialized{false};
 };
