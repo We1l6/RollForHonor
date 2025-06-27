@@ -1,5 +1,7 @@
 #include "imGuiManager.h"
 
+#include <algorithm>
+
 #ifdef ENABLE_DEV_TOOLS
 #include "imgui.h"
 #include "rlImGui.h"
@@ -41,6 +43,19 @@ void ImGuiManager::ShowDebugWindow(float fps)
     ImGui::Text("Display: %s", GetMonitorName(0));
     Vector2 mousePos = GetMousePosition();
     ImGui::Text("Mouse: (%.0f, %.0f)", mousePos.x, mousePos.y);
+
+    ImGui::ShowDemoWindow();
+    ImGui::End();
+}
+
+void ImGuiManager::ShowPerformanceWindow()
+{
+    float dt = GetFrameTime();
+    m_maxFrameTime = std::max(dt, m_maxFrameTime);
+
+    ImGui::Begin("Performance Info");
+    ImGui::Text("Max Frame Time: %.6f ms", m_maxFrameTime * 1000.0f);
+    ImGui::Text("Frame Time: %.6f ms", dt * 1000.0f);
     ImGui::End();
 }
 

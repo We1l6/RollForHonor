@@ -30,6 +30,7 @@ void RenderManager::EndFrame()
     if (m_imGuiManager->IsEnabled())
     {
         m_imGuiManager->ShowDebugWindow(GetFPS());
+        m_imGuiManager->ShowPerformanceWindow();
         m_imGuiManager->EndFrame();
     }
 #endif
