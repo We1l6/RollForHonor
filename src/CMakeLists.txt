@@ -20,6 +20,7 @@ add_executable(RollForHonor
   "managers/imGuiManager/imGuiManager.h" "managers/imGuiManager/imGuiManager.cpp"
   "scenes/mainMenuScene/mainMenuScene.cpp" "scenes/mainMenuScene/mainMenuScene.h"
   "scenes/scene/scene.h"
+  "devkit/windows/performanceMonitor/performanceMonitor.h" "devkit/windows/performanceMonitor/performanceMonitor.cpp"
 )
 
 # Link the executable target RollForHonor with the specified libraries privately

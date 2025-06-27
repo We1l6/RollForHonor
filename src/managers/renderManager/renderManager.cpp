@@ -1,8 +1,11 @@
 #include "renderManager.h"
 
+
 bool RenderManager::Init(int width, int height, const char *title)
 {
+    SetConfigFlags(FLAG_FULLSCREEN_MODE);
     InitWindow(width, height, title);
+    SetExitKey(KEY_BACKSPACE);
     SetTargetFPS(60);
     return IsWindowReady();
 }

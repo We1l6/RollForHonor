@@ -1,6 +1,7 @@
 #pragma once
 
 #include "raylib.h"
+#include "../../devkit/windows/performanceMonitor/performanceMonitor.h"
 
 class ImGuiManager
 {
@@ -23,4 +24,8 @@ class ImGuiManager
     float m_maxFrameTime{0.0f};
     bool m_enabled{true};
     bool m_initialized{false};
+
+    static constexpr float PLOT_HEIGHT = 100.0f;
+    static constexpr float PLOT_STATISTICS_POSITION = 15.0f; 
+    static constexpr float PLOT_SCALE_PADDING = 1.2f;
 };
