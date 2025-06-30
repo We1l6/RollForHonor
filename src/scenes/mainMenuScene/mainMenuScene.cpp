@@ -1,4 +1,5 @@
 #include "mainMenuScene.h"
+#include "raylib.h"
 
 
 void MainMenuScene::Init(std::shared_ptr<RenderManager> &renderManager,
@@ -10,12 +11,54 @@ void MainMenuScene::Init(std::shared_ptr<RenderManager> &renderManager,
     m_textureManager = textureManager;
     m_fontManager = fontManager;
     m_soundManager = soundManager;
-    m_playerTexture = *textureManager->LoadTexture(
-        "resources/DavidATTACK.png"); // test texture
+
+    m_playButton = Button(
+        RectanglePro({{GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f},
+                      {200.0f, 100.0f},
+                      0,
+                      10.0f}),
+        UISkin(WHITE), TextPro("Play"), nullptr, []() {});
+
+    m_settingsButton =
+        Button(RectanglePro({{GetScreenWidth() / 2.0f,
+                              GetScreenHeight() / 2.0f + 110.0f},
+                             {200.0f, 100.0f},
+                             0,
+                             10.0f}),
+               UISkin(WHITE), TextPro("Settings"), nullptr, []() {});
+
+    m_exitButton = Button(RectanglePro({{GetScreenWidth() / 2.0f,
+                                         GetScreenHeight() / 2.0f + 220.0f},
+                                        {200.0f, 100.0f},
+                                        0,
+                                        10.0f}),
+                          UISkin(WHITE), TextPro("Exit"), nullptr, []() {});
 }
 
 
-void MainMenuScene::Update(float deltaTime) {}
-void MainMenuScene::Render() { DrawTexture(m_playerTexture, 0, 0, WHITE); }
+void MainMenuScene::Update(float deltaTime) { UpdateMenuButtons(); }
+void MainMenuScene::Render()
+{
+    DrawBackground();
+    DrawMenuButtons();
+}
+
 void MainMenuScene::Unload() {}
 bool MainMenuScene::ShouldExit() { return WindowShouldClose() || m_shouldExit; }
+
+
+void MainMenuScene::LoadResources() {}
+void MainMenuScene::DrawBackground() {}
+void MainMenuScene::DrawMenuButtons()
+{
+    m_playButton.Draw();
+    m_settingsButton.Draw();
+    m_exitButton.Draw();
+}
+
+void MainMenuScene::UpdateMenuButtons()
+{
+    m_playButton.Update();
+    m_settingsButton.Update();
+    m_exitButton.Update();
+}

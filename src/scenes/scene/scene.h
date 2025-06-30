@@ -4,6 +4,7 @@
 #include "../../managers/resourceManagers/fontManager/fontManager.h"
 #include "../../managers/resourceManagers/soundManager/soundManager.h"
 #include "../../managers/resourceManagers/textureManager/textureManager.h"
+#include "raylib.h"
 
 class Scene
 {

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../scenes/scene/scene.h"
+#include "../../userInterface/button/button.h"
 
 class MainMenuScene : public Scene
 {
@@ -19,10 +20,19 @@ class MainMenuScene : public Scene
     bool ShouldExit() override;
 
   private:
+    void LoadResources();
+    void DrawBackground();
+    void DrawMenuButtons();
+    void UpdateMenuButtons();
+
+    Button m_playButton;
+    Button m_settingsButton;
+    Button m_exitButton;
+
+  private:
     std::shared_ptr<RenderManager> m_renderManager;
     std::shared_ptr<TextureManager> m_textureManager;
     std::shared_ptr<FontManager> m_fontManager;
     std::shared_ptr<SoundManager> m_soundManager;
     bool m_shouldExit = false;
-    Texture2D m_playerTexture;
 };
