@@ -51,76 +51,8 @@ void ImGuiManager::ShowDebugWindow(float fps)
 
 void ImGuiManager::ShowPerformanceWindow()
 {
-    static bool initialized = false;
-    static bool paused = false;
-
-    if (!initialized) {
-        PerformanceMonitor::StartMonitoring();
-        initialized = true;
-    }
-
-    ImGui::Begin("Performance Monitor");
-
-    if (ImGui::Button(paused ? "Resume" : "Pause")) {
-        paused = !paused;
-    }
-
-    ImGui::SameLine();
-    ImGui::Text(paused ? "Paused" : "Running");
-
-    if (!paused) {
-        PerformanceMonitor::Update();
-    }
-
-    // --- CPU Usage ---
-    const auto& cpuHistory = PerformanceMonitor::GetCpuHistory();
-    ImGui::Text("CPU Usage:");
-    if (!cpuHistory.empty())
-    {
-        float maxCpu = *std::max_element(cpuHistory.begin(), cpuHistory.end());
-        float minCpu = *std::min_element(cpuHistory.begin(), cpuHistory.end());
-        float avgCpu = std::accumulate(cpuHistory.begin(), cpuHistory.end(), 0.0f) / cpuHistory.size();
-        float y_min = minCpu;
-        float y_max = maxCpu;
-
-        if (y_min == y_max) {
-            y_max = y_min + 1.0f;
-        }
-
-        ImGui::PlotLines("##cpu", cpuHistory.data(), (int)cpuHistory.size(), 0, nullptr, 0.0f, y_max * PLOT_SCALE_PADDING, ImVec2(0, PLOT_HEIGHT));
-
-        ImGui::SameLine();
-        ImGui::SetCursorPosX(PLOT_STATISTICS_POSITION);
-        ImGui::Text("Min: %.1f%%", minCpu);
-        ImGui::SameLine();
-        ImGui::Text("Avg: %.1f%%", avgCpu);
-        ImGui::SameLine();
-        ImGui::Text("Max: %.1f%%", maxCpu);
-    }
-
-    ImGui::Separator();
-
-    // --- Memory Usage ---
-    const auto& memHistory = PerformanceMonitor::GetMemHistory();
-    ImGui::Text("Memory Usage (MB):");
-
-    if (!memHistory.empty()) {
-        float avgMem = std::accumulate(memHistory.begin(), memHistory.end(), 0.0f) / memHistory.size();
-        float minMem = *std::min_element(memHistory.begin(), memHistory.end());
-        float maxMem = *std::max_element(memHistory.begin(), memHistory.end());
-
-        ImGui::PlotLines("##mem", memHistory.data(), static_cast<int>(memHistory.size()),
-            0, nullptr, 0.0f, maxMem * PLOT_SCALE_PADDING, ImVec2(0, PLOT_HEIGHT));
-
-        ImGui::SameLine();
-        ImGui::SetCursorPosX(PLOT_STATISTICS_POSITION);
-        ImGui::Text("Min: %.1f MB", minMem);
-        ImGui::SameLine();
-        ImGui::Text("Avg: %.1f MB", avgMem);
-        ImGui::SameLine();
-        ImGui::Text("Max: %.1f MB", maxMem);
-    }
-
+    ImGui::Begin("Performance Info");
+    PerformanceMonitor::Render();
     ImGui::End();
 }
 
