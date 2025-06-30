@@ -1,16 +1,13 @@
 #pragma once
 
 #include "../../scenes/scene/scene.h"
-#include "../../scenes/scene/sceneFactory.h"
 #include "../../userInterface/button/button.h"
-#include "raylib.h"
 
-
-class MainMenuScene : public Scene
+class SettingsScene : public Scene
 {
   public:
-    MainMenuScene() = default;
-    ~MainMenuScene() override = default;
+    SettingsScene() = default;
+    ~SettingsScene() override = default;
 
     void Init(std::shared_ptr<RenderManager> renderManager,
               std::shared_ptr<TextureManager> textureManager,
@@ -29,9 +26,8 @@ class MainMenuScene : public Scene
     void DrawMenuButtons();
     void UpdateMenuButtons();
 
-    Button m_playButton;
-    Button m_settingsButton;
-    Button m_exitButton;
+    Button m_saveButton;
+    Button m_backButton;
 
   private:
     std::shared_ptr<RenderManager> m_renderManager;

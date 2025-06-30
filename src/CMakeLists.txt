@@ -17,9 +17,11 @@ add_executable(RollForHonor
   "managers/resourceManagers/fontManager/fontManager.cpp" "managers/resourceManagers/fontManager/fontManager.h"
   "managers/renderManager/renderManager.cpp" "managers/renderManager/renderManager.h"
   "managers/sceneManager/sceneManager.cpp" "managers/sceneManager/sceneManager.h"
-  "managers/imGuiManager/imGuiManager.h" "managers/imGuiManager/imGuiManager.cpp"
-  "scenes/mainMenuScene/mainMenuScene.cpp" "scenes/mainMenuScene/mainMenuScene.h"
+  "managers/imGuiManager/imGuiManager.cpp" "managers/imGuiManager/imGuiManager.h"
+  "scenes/scene/sceneFactory.cpp" "scenes/scene/sceneFactory.h"
   "scenes/scene/scene.h"
+  "scenes/mainMenuScene/mainMenuScene.cpp" "scenes/mainMenuScene/mainMenuScene.h"
+  "scenes/settingsScene/settingsScene.cpp" "scenes/settingsScene/settingsScene.h"
 )
 
 # Link the executable target RollForHonor with the specified libraries privately
