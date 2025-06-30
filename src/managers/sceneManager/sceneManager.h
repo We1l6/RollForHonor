@@ -1,20 +1,21 @@
 #pragma once
 
+class Scene;
 #include "../../scenes/scene/scene.h"
 #include <memory>
 #include <stack>
 
-class SceneManager
+class SceneManager : public std::enable_shared_from_this<SceneManager>
 {
   public:
-    SceneManager(std::shared_ptr<RenderManager> &renderManager,
-                 std::shared_ptr<TextureManager> &textureManager,
-                 std::shared_ptr<FontManager> &fontManager,
-                 std::shared_ptr<SoundManager> &soundManager)
-        : m_renderManager(renderManager),
-          m_textureManager(textureManager),
-          m_fontManager(fontManager),
-          m_soundManager(soundManager)
+    SceneManager(std::shared_ptr<RenderManager> renderManager,
+                 std::shared_ptr<TextureManager> textureManager,
+                 std::shared_ptr<FontManager> fontManager,
+                 std::shared_ptr<SoundManager> soundManager)
+        : m_renderManager(std::move(renderManager)),
+          m_textureManager(std::move(textureManager)),
+          m_fontManager(std::move(fontManager)),
+          m_soundManager(std::move(soundManager))
     {
     }
     ~SceneManager();

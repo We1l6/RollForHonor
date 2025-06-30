@@ -23,7 +23,7 @@ void SceneManager::ChangeScene(std::unique_ptr<Scene> scene)
     }
     m_scenes.push(std::move(scene));
     m_scenes.top()->Init(m_renderManager, m_textureManager, m_fontManager,
-                         m_soundManager);
+                         m_soundManager, weak_from_this());
 }
 
 
@@ -35,7 +35,7 @@ void SceneManager::PushScene(std::unique_ptr<Scene> scene)
     }
     m_scenes.push(std::move(scene));
     m_scenes.top()->Init(m_renderManager, m_textureManager, m_fontManager,
-                         m_soundManager);
+                         m_soundManager, weak_from_this());
 }
 
 
