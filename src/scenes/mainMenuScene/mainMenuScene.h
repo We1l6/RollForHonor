@@ -8,22 +8,22 @@
 
 class MainMenuScene : public Scene
 {
-  public:
+public:
     MainMenuScene() = default;
     ~MainMenuScene() override = default;
 
     void Init(std::shared_ptr<RenderManager> renderManager,
-              std::shared_ptr<TextureManager> textureManager,
-              std::shared_ptr<FontManager> fontManager,
-              std::shared_ptr<SoundManager> soundManager,
-              std::weak_ptr<SceneManager> sceneManager) override;
+        std::shared_ptr<TextureManager> textureManager,
+        std::shared_ptr<FontManager> fontManager,
+        std::shared_ptr<SoundManager> soundManager,
+        std::weak_ptr<SceneManager> sceneManager) override;
 
     void Update(float deltaTime) override;
     void Render() override;
     void Unload() override;
     bool ShouldExit() override;
 
-  private:
+private:
     void LoadResources();
     void DrawBackground();
     void DrawMenuButtons();
@@ -33,7 +33,7 @@ class MainMenuScene : public Scene
     Button m_settingsButton;
     Button m_exitButton;
 
-  private:
+private:
     std::shared_ptr<RenderManager> m_renderManager;
     std::shared_ptr<TextureManager> m_textureManager;
     std::shared_ptr<FontManager> m_fontManager;

@@ -42,7 +42,7 @@
 #include <string>
 #include <vector>
 #include <sstream>
-class TextBox
+class TextBox : public UserInterface
 {
 public:
 	TextBox(const std::string text);

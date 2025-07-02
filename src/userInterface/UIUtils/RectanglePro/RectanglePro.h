@@ -37,8 +37,14 @@ public:
 	[[nodiscard]] Rectangle getRectangle() const;
 	[[nodiscard]] float getRotation() const { return m_rotation; }
 	[[nodiscard]] float getCornerRadius() const { return m_cornerRadius; }
-	[[nodiscard]] Vector2 getPosition() const { return { x + width / 2.0f, y + height / 2.0f }; }
 	[[nodiscard]] Vector2 getSize() const { return { width, height }; }
+	/**
+	* @brief Get the center position of the rectangle.
+	*/
+	[[nodiscard]] Vector2 getPosition() const { return { x + width / 2.0f, y + height / 2.0f }; }
+	/**
+	* @brief Get the origin of the rectangle(top left).
+	*/
 	[[nodiscard]] Vector2 getOrigin() const { return { x, y }; }
 
 	//Setters
