@@ -50,7 +50,7 @@ public:
 	CheckBox(const RectanglePro&, const UISkin& boxSkin, const UISkin& checkButtonSkin);
 
 	//Getters
-	bool getChecked() const { return m_checked; }
+	[[nodiscard]] bool getChecked() const { return m_checked; }
 
 	//Setters
 	void setOnCheck(ButtonCallback onCheck) { m_checkButton.setOnClickFinished(onCheck); }

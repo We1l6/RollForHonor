@@ -31,6 +31,7 @@
 #pragma once
 
 #include "../userInterface.h"
+#include "../UIUtils/UIElementEntry/UIElementEntry.h"
 #include "raymath.h"
 
 class UIPanel : public UserInterface
@@ -42,14 +43,23 @@ public:
 	Vector2 getLocalCenter();
 	UISkin getSkin() const { return m_skin; }
 
-	void setVisible(bool visible) { m_visible = visible; }
+	void DrawPanel();
 
 	void Draw() override;
 	void Update() override;
 	
-	void AddElement(std::shared_ptr<UserInterface> element, Vector2 localPosition);
+	void AddElement(std::shared_ptr<UserInterface> element, Vector2 localPosition, int zIndex);
+
+	void ChangeElementZIndex(std::shared_ptr<UserInterface> element, int newZIndex);
+
+	void BringToFront(std::shared_ptr<UserInterface> element);
+	void SendToBack(std::shared_ptr<UserInterface> element);
 
 private:
-	bool m_visible;
-	std::vector<std::shared_ptr<UserInterface>> m_elements;
+	std::vector<UIElementEntry> m_elements;
+	bool m_needsSort;
+
+	int GetHighestZIndex() const;
+	int GetLowestZIndex() const;
+
 };

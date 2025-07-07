@@ -49,8 +49,11 @@ void CheckBox::UpdateVisual()
 
 void CheckBox::Draw()
 {
-	m_skin.Draw(m_rect);
-	m_checkButton.Draw();
+	if (m_visible)
+	{
+		m_skin.Draw(m_rect);
+		m_checkButton.Draw();
+	}
 }
 
 void CheckBox::Update()

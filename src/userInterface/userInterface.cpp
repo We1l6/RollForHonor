@@ -4,7 +4,7 @@ UserInterface::UserInterface(const RectanglePro& rect, const UISkin& skin)
     : UserInterface(rect, skin, TextPro(std::string(""))) { }
 
 UserInterface::UserInterface(const RectanglePro& rect, const UISkin& skin, const TextPro& text)
-    : m_rect(rect), m_text(text), m_skin(skin)
+	: m_rect(rect), m_text(text), m_skin(skin), m_visible(true), m_zIndex(0)
 {
 	updateTextPosition();
 	m_text.setRotation(m_rect.getRotation());

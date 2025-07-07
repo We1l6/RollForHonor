@@ -58,8 +58,11 @@ void Button::safeInvoke(const ButtonCallback& callback)
 
 void Button::Draw()
 {
-	m_skin.Draw(m_rect);
-	m_text.Draw();
+	if (m_visible)
+	{
+		m_skin.Draw(m_rect);
+		m_text.Draw();
+	}
 }
 
 void Button::Update()

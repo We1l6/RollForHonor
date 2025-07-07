@@ -22,7 +22,7 @@ add_executable(RollForHonor
   "scenes/scene/scene.h"
   "scenes/mainMenuScene/mainMenuScene.cpp" "scenes/mainMenuScene/mainMenuScene.h"
   "scenes/settingsScene/settingsScene.cpp" "scenes/settingsScene/settingsScene.h"
- "userInterface/uiPanel/uiPanel.h" "userInterface/uiPanel/uiPanel.cpp")
+ "userInterface/uiPanel/uiPanel.h" "userInterface/uiPanel/uiPanel.cpp" "userInterface/UIUtils/UIElementEntry/UIElementEntry.h" "userInterface/UIUtils/UIElementEntry/UIElementEntry.cpp")
 
 # Link the executable target RollForHonor with the specified libraries privately
 target_link_libraries(RollForHonor PRIVATE 

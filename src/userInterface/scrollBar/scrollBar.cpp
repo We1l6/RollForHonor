@@ -100,9 +100,12 @@ void ScrollBar::Update()
 
 void ScrollBar::Draw()
 {	
-	m_skin.Draw(m_rect); 
-	m_thumbButton.Draw();
-	m_text.Draw();
+	if (m_visible)
+	{
+		m_skin.Draw(m_rect);
+		m_thumbButton.Draw();
+		m_text.Draw();
+	}
 }
 
 void ScrollBar::updateThumbPosition()

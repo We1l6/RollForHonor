@@ -55,6 +55,9 @@ protected:
   RectanglePro m_rect;
   UISkin m_skin;
 
+  bool m_visible;
+  int m_zIndex;
+
   void updateTextPosition();
 public:
 
@@ -76,10 +79,16 @@ public:
 	[[nodiscard]] float getRotation() const { return m_rect.getRotation(); }
 	[[nodiscard]] float getCornerRadius() const { return m_rect.getCornerRadius(); }
 	[[nodiscard]] Color getColor() const { return m_skin.getColor(); }
+	[[nodiscard]] UISkin getSkin() const { return m_skin; }
+	[[nodiscard]] bool isVisible() const { return m_visible; }
+	[[nodiscard]] int getZIndex() const { return m_zIndex; }
 
 	//Setters
 	void setSize(Vector2 size);
 	void setPosition(Vector2 position);
 	void setText(const std::string& text);
+	void setVisible(bool visible) { m_visible = visible; }
+	void setZIndex(int zIndex) { m_zIndex = zIndex; }
+
 	
 };

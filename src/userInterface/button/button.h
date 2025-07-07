@@ -67,8 +67,10 @@ public:
 	void setColor(Color color) { m_skin.setColor(color); }
 	void setHoverColor(Color hoverColor) { m_hoverColor = hoverColor; }
 	void setTexture(Texture2D texture) { m_skin.setTexture(texture); }
+
 	void Update() override;
 	void Draw() override;
+
 private:
 	ButtonCallback m_onHold = [&]() {};
 	ButtonCallback m_onClickFinished = [&]() {};
