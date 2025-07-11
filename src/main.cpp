@@ -71,7 +71,7 @@ int main()
     std::thread cpuThread3(CpuLoadTask, std::ref(loadCpu3));
 
     std::thread memoryThread(MemoryLoadTask);
-
+    
     auto renderManager = std::make_shared<RenderManager>();
     auto textureManager = std::make_shared<TextureManager>();
     auto soundManager = std::make_shared<SoundManager>();
@@ -132,4 +132,5 @@ int main()
     soundManager->UnloadAll();
     fontManager->UnloadAll();
     renderManager->Shutdown();
+    PerformanceMonitor::StopGPUMonitoring();
 }

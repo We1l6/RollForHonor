@@ -1,21 +1,22 @@
 #include "performanceMonitor.h"
-#include <string>
 
+auto lastFrameTime = std::chrono::high_resolution_clock::now();
+std::thread PerformanceMonitor::gpuThread;
+std::atomic<bool> PerformanceMonitor::monitoringActive(false);
+float PerformanceMonitor::cachedGPUUsage = -1.0f;
+float PerformanceMonitor::cachedVRAMUsage = -1.0f;
+std::mutex PerformanceMonitor::dataMutex;
 #if defined(_WIN32) || defined(_WIN64)
 
-#include <psapi.h>
 #include <windows.h>
-
-#include "TCHAR.h"
+#include <tchar.h>  
+#include <psapi.h>
 
 static ULARGE_INTEGER lastCPU = {};
 static ULARGE_INTEGER lastSysCPU = {};
 static ULARGE_INTEGER lastUserCPU = {};
 static int numProcessors = 0;
 static HANDLE self = nullptr;
-
-std::vector<float> PerformanceMonitor::cpuHistory;
-std::vector<float> PerformanceMonitor::memHistory;
 
 void PerformanceMonitor::StartMonitoring() { init(); }
 
@@ -51,6 +52,24 @@ void PerformanceMonitor::Update()
     memHistory.push_back(mem);
 }
 
+float PerformanceMonitor::GetAverageCPU()
+{
+	if (cpuHistory.empty())
+		return 0.0f;
+	float sum = std::accumulate(cpuHistory.begin(), cpuHistory.end(), 0.0f);
+	return sum / cpuHistory.size();
+}
+
+float PerformanceMonitor::GetAverageMemory()
+{
+	if (memHistory.empty())
+		return 0.0f;
+	float sum = std::accumulate(memHistory.begin(), memHistory.end(), 0.0f);
+	return sum / memHistory.size();
+}
+
+
+
 void PerformanceMonitor::init()
 {
     SYSTEM_INFO sysInfo;
@@ -66,6 +85,9 @@ void PerformanceMonitor::init()
     GetProcessTimes(self, &ftime, &ftime, &fsys, &fuser);
     memcpy(&lastSysCPU, &fsys, sizeof(FILETIME));
     memcpy(&lastUserCPU, &fuser, sizeof(FILETIME));
+
+	// Get NVIDIA GPU name
+	nvidiaGPUName = getNvidiaGPUName();
 }
 
 float PerformanceMonitor::getCurrentCPUUsage()
@@ -134,86 +156,54 @@ float PerformanceMonitor::getPrivateMemoryUsage()
     return privateMB;
 }
 
-void PerformanceMonitor::Render()
+float PerformanceMonitor::GetFPS()
 {
-    static bool initialized = false;
-    static bool paused = false;
+    auto now = std::chrono::high_resolution_clock::now();
+    float frameTime = std::chrono::duration<float>(now - lastFrameTime).count();
+    lastFrameTime = now;
+    if (frameTime > 0)
+        return 1.0f / frameTime;
+    else
+        return 0.0f;
+}
 
-    if (!initialized)
-    {
-        PerformanceMonitor::StartMonitoring();
-        initialized = true;
-    }
-    if (ImGui::Button(paused ? "Resume" : "Pause"))
-    {
-        paused = !paused;
-    }
+std::string PerformanceMonitor::getNvidiaGPUName()
+{
+    const char* command = "nvidia-smi --query-gpu=name --format=csv,noheader";
+    std::array<char, 128> buffer;
+    std::string result;
 
-    ImGui::SameLine();
-    ImGui::Text(paused ? "Paused" : "Running");
+    FILE* pipe = _popen(command, "r");
+    if (!pipe) return "";
 
-    if (!paused)
-    {
-        PerformanceMonitor::Update();
-    }
+    while (fgets(buffer.data(), buffer.size(), pipe) != nullptr)
+        result += buffer.data();
 
-    // --- CPU Usage ---
-    const auto &cpuHistory = PerformanceMonitor::GetCpuHistory();
-    ImGui::Text("CPU Usage:");
-    if (!cpuHistory.empty())
-    {
-        float maxCpu = *std::max_element(cpuHistory.begin(), cpuHistory.end());
-        float minCpu = *std::min_element(cpuHistory.begin(), cpuHistory.end());
-        float avgCpu =
-            std::accumulate(cpuHistory.begin(), cpuHistory.end(), 0.0f) /
-            cpuHistory.size();
-        float y_min = minCpu;
-        float y_max = maxCpu;
+    _pclose(pipe);
 
-        if (y_min == y_max)
-        {
-            y_max = y_min + 1.0f;
-        }
+    size_t end = result.find_last_not_of(" \n\r\t");
+    if (end != std::string::npos)
+        result = result.substr(0, end + 1);
+    else
+        result.clear();
 
-        ImGui::PlotLines("##cpu", cpuHistory.data(), (int)cpuHistory.size(), 0,
-                         nullptr, 0.0f, y_max * PLOT_SCALE_PADDING,
-                         ImVec2(0, PLOT_HEIGHT));
+    return result;
+}
 
-        ImGui::SameLine();
-        ImGui::SetCursorPosX(PLOT_STATISTICS_POSITION);
-        ImGui::Text("Min: %.1f%%", minCpu);
-        ImGui::SameLine();
-        ImGui::Text("Avg: %.1f%%", avgCpu);
-        ImGui::SameLine();
-        ImGui::Text("Max: %.1f%%", maxCpu);
-    }
+float PerformanceMonitor::GetAverageGPU()
+{
+    if (gpuHistory.empty()) return 0.0f;
 
-    ImGui::Separator();
+    float sum = std::accumulate(gpuHistory.begin(), gpuHistory.end(), 0.0f);
+    return sum / gpuHistory.size();
+}
 
-    // --- Memory Usage ---
-    const auto &memHistory = PerformanceMonitor::GetMemHistory();
-    ImGui::Text("Memory Usage (MB):");
+float PerformanceMonitor::GetAverageVRAM()
+{
+    if (vramHistory.empty()) return 0.0f;
 
-    if (!memHistory.empty())
-    {
-        float avgMem =
-            std::accumulate(memHistory.begin(), memHistory.end(), 0.0f) /
-            memHistory.size();
-        float minMem = *std::min_element(memHistory.begin(), memHistory.end());
-        float maxMem = *std::max_element(memHistory.begin(), memHistory.end());
-
-        ImGui::PlotLines("##mem", memHistory.data(),
-                         static_cast<int>(memHistory.size()), 0, nullptr, 0.0f,
-                         maxMem * PLOT_SCALE_PADDING, ImVec2(0, PLOT_HEIGHT));
-
-        ImGui::SameLine();
-        ImGui::SetCursorPosX(PLOT_STATISTICS_POSITION);
-        ImGui::Text("Min: %.1f MB", minMem);
-        ImGui::SameLine();
-        ImGui::Text("Avg: %.1f MB", avgMem);
-        ImGui::SameLine();
-        ImGui::Text("Max: %.1f MB", maxMem);
-    }
+    float sum = std::accumulate(vramHistory.begin(), vramHistory.end(), 0.0f);
+    return sum / vramHistory.size();
 }
 
 #elif defined(__linux__)
@@ -231,7 +221,6 @@ void PerformanceMonitor::StartMonitoring() { init(); }
 //     LogPerformanceData();
 // }
 
-#include "imgui.h"
 #include <sys/sysinfo.h>
 void PerformanceMonitor::LogPerformanceData() {}
 
@@ -270,3 +259,295 @@ void PerformanceMonitor::Render()
 }
 
 #endif
+
+
+void PerformanceMonitor::StartGPUMonitoring()
+{
+    if (monitoringActive.load()) return;
+
+    monitoringActive = true;
+    gpuThread = std::thread(&PerformanceMonitor::GPUMonitorLoop);
+}
+
+void PerformanceMonitor::StopGPUMonitoring()
+{
+    if (!monitoringActive.load()) return;
+
+    monitoringActive = false;
+    if (gpuThread.joinable())
+        gpuThread.join();
+}
+
+float PerformanceMonitor::GetCurrentGPUUsage()
+{
+    std::lock_guard<std::mutex> lock(dataMutex);
+    return cachedGPUUsage;
+}
+
+float PerformanceMonitor::GetCurrentVRAMUsage()
+{
+    std::lock_guard<std::mutex> lock(dataMutex);
+    return cachedVRAMUsage;
+}
+
+void PerformanceMonitor::GPUMonitorLoop()
+{
+    while (monitoringActive.load())
+    {
+        float gpuUsage = QueryGPUUsage();
+        float vramUsage = QueryVRAMUsage();
+
+        {
+            std::lock_guard<std::mutex> lock(dataMutex);
+            cachedGPUUsage = gpuUsage;
+            cachedVRAMUsage = vramUsage;
+
+            gpuHistory.push_back(gpuUsage);
+            vramHistory.push_back(vramUsage);
+
+            if (gpuHistory.size() > MAX_HISTORY_SIZE)
+                gpuHistory.erase(gpuHistory.begin());
+            if (vramHistory.size() > MAX_HISTORY_SIZE)
+                vramHistory.erase(vramHistory.begin());
+        }
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    }
+}
+
+float PerformanceMonitor::QueryGPUUsage()
+{
+    const char* cmd = "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits";
+    std::array<char, 64> buffer;
+    std::string result;
+    FILE* pipe = _popen(cmd, "r");
+    if (!pipe) return -1.0f;
+
+    if (fgets(buffer.data(), buffer.size(), pipe) != nullptr)
+        result = buffer.data();
+
+    _pclose(pipe);
+
+    try {
+        return std::stof(result);
+    }
+    catch (...) {
+        return -1.0f;
+    }
+}
+
+float PerformanceMonitor::QueryVRAMUsage()
+{
+    const char* cmd = "nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits";
+    std::array<char, 64> buffer;
+    std::string result;
+    FILE* pipe = _popen(cmd, "r");
+    if (!pipe) return -1.0f;
+
+    if (fgets(buffer.data(), buffer.size(), pipe) != nullptr)
+        result = buffer.data();
+
+    _pclose(pipe);
+
+    try {
+        return std::stof(result);
+    }
+    catch (...) {
+        return -1.0f;
+    }
+}
+
+void PerformanceMonitor::Render()
+{
+    static bool initialized = false;
+    static bool paused = false;
+
+    if (!initialized)
+    {
+        StartMonitoring();
+        initialized = true;
+    }
+
+    //Pause/Resume button
+    if (ImGui::Button(paused ? "Resume" : "Pause"))
+    {
+        paused = !paused;
+    }
+    ImGui::SameLine();
+    ImGui::Text(paused ? "Paused" : "Running");
+
+    //Checkboxes
+    ImGui::Checkbox("CPU Usage", &cpuMonitorEnabled);
+    ImGui::SameLine();
+    if (ImGui::Checkbox("GPU Usage", &gpuMonitorEnabled))
+    {
+        if (gpuMonitorEnabled)
+            StartGPUMonitoring();
+        else
+            StopGPUMonitoring();
+    }
+    ImGui::SameLine();
+    ImGui::Checkbox("RAM Usage", &ramMonitorEnabled);
+    ImGui::SameLine();
+    ImGui::Checkbox("FPS", &fpsMonitorEnabled);
+
+    ImGui::Separator();
+
+    if (!paused)
+    {
+        Update(); 
+    }
+
+    //--- CPU Usage ---
+    if (cpuMonitorEnabled)
+    {
+        const auto& cpuHistory = GetCpuHistory();
+        ImGui::Text("CPU Usage:");
+        if (!cpuHistory.empty())
+        {
+            float minCpu = *std::min_element(cpuHistory.begin(), cpuHistory.end());
+            float maxCpu = *std::max_element(cpuHistory.begin(), cpuHistory.end());
+            float avgCpu = GetAverageCPU();
+
+            if (minCpu == maxCpu) maxCpu = minCpu + 1.0f;
+
+            ImGui::PlotLines("##cpuPlot", cpuHistory.data(), (int)cpuHistory.size(), 0, nullptr,
+                0.0f, maxCpu * PLOT_SCALE_PADDING, ImVec2(0, PLOT_HEIGHT));
+
+            ImGui::SameLine();
+            ImGui::SetCursorPosX(PLOT_STATISTICS_POSITION);
+            ImGui::Text("Min: %.1f%%", minCpu);
+            ImGui::SameLine();
+            ImGui::Text("Avg: %.1f%%", avgCpu);
+            ImGui::SameLine();
+            ImGui::Text("Max: %.1f%%", maxCpu);
+        }
+        else
+        {
+            ImGui::Text("No CPU data yet.");
+        }
+        ImGui::Separator();
+    }
+
+    //--- GPU Usage ---
+    if (gpuMonitorEnabled)
+    {
+        ImGui::Text("GPU Usage: %s", nvidiaGPUName.empty() ? "NVIDIA GPU" : nvidiaGPUName.c_str());
+
+        const auto& gpuHist = GetGPUHistory();
+        const auto& vramHist = GetVRAMHistory();
+
+        if (!gpuHist.empty() && !vramHist.empty())
+        {
+            float minGPU = *std::min_element(gpuHist.begin(), gpuHist.end());
+            float maxGPU = *std::max_element(gpuHist.begin(), gpuHist.end());
+            float avgGPU = GetAverageGPU();
+
+            float minVRAM = *std::min_element(vramHist.begin(), vramHist.end());
+            float maxVRAM = *std::max_element(vramHist.begin(), vramHist.end());
+            float avgVRAM = GetAverageVRAM();
+
+            if (minGPU == maxGPU) maxGPU = minGPU + 1.0f;
+            if (minVRAM == maxVRAM) maxVRAM = minVRAM + 1.0f;
+
+            ImGui::PlotLines("##gpuPlot", gpuHist.data(), (int)gpuHist.size(), 0, nullptr,
+                0.0f, 100.0f, ImVec2(0, PLOT_HEIGHT));
+            ImGui::SameLine();
+            ImGui::SetCursorPosX(PLOT_STATISTICS_POSITION);
+            ImGui::Text("Min: %.1f%%", minGPU);
+            ImGui::SameLine();
+            ImGui::Text("Avg: %.1f%%", avgGPU);
+            ImGui::SameLine();
+            ImGui::Text("Max: %.1f%%", maxGPU);
+
+            ImGui::Text("VRAM Usage (MB):");
+            ImGui::PlotLines("##vramPlot", vramHist.data(), (int)vramHist.size(), 0, nullptr,
+                0.0f, maxVRAM * PLOT_SCALE_PADDING, ImVec2(0, PLOT_HEIGHT));
+            ImGui::SameLine();
+            ImGui::SetCursorPosX(PLOT_STATISTICS_POSITION);
+            ImGui::Text("Min: %.1f MB", minVRAM);
+            ImGui::SameLine();
+            ImGui::Text("Avg: %.1f MB", avgVRAM);
+            ImGui::SameLine();
+            ImGui::Text("Max: %.1f MB", maxVRAM);
+        }
+        else
+        {
+            ImGui::Text("GPU data not available.");
+        }
+        ImGui::Separator();
+    }
+
+    //--- RAM Usage ---
+    if (ramMonitorEnabled)
+    {
+        const auto& memHistory = GetMemHistory();
+        ImGui::Text("Memory Usage (MB):");
+        if (!memHistory.empty())
+        {
+            float minMem = *std::min_element(memHistory.begin(), memHistory.end());
+            float maxMem = *std::max_element(memHistory.begin(), memHistory.end());
+            float avgMem = GetAverageMemory();
+
+            if (minMem == maxMem) maxMem = minMem + 1.0f;
+
+            ImGui::PlotLines("##ramPlot", memHistory.data(), (int)memHistory.size(), 0, nullptr,
+                0.0f, maxMem * PLOT_SCALE_PADDING, ImVec2(0, PLOT_HEIGHT));
+
+            ImGui::SameLine();
+            ImGui::SetCursorPosX(PLOT_STATISTICS_POSITION);
+            ImGui::Text("Min: %.1f MB", minMem);
+            ImGui::SameLine();
+            ImGui::Text("Avg: %.1f MB", avgMem);
+            ImGui::SameLine();
+            ImGui::Text("Max: %.1f MB", maxMem);
+        }
+        else
+        {
+            ImGui::Text("No memory data yet.");
+        }
+        ImGui::Separator();
+    }
+
+    //--- FPS ---
+    if (fpsMonitorEnabled)
+    {
+        const auto& fpsHist = GetFPSHistory();
+        float currentFPS = GetFPS();
+
+        if (currentFPS > 0.0f)
+        {
+            if (!paused)
+            {
+                fpsHistory.push_back(currentFPS);
+                if (fpsHistory.size() > MAX_HISTORY_SIZE)
+                    fpsHistory.erase(fpsHistory.begin());
+            }
+        }
+
+        ImGui::Text("FPS: %.0f", currentFPS);
+        if (!fpsHist.empty())
+        {
+            float minFPS = *std::min_element(fpsHist.begin(), fpsHist.end());
+            float maxFPS = *std::max_element(fpsHist.begin(), fpsHist.end());
+            float avgFPS = std::accumulate(fpsHist.begin(), fpsHist.end(), 0.0f) / fpsHist.size();
+
+            if (minFPS == maxFPS) maxFPS = minFPS + 1.0f;
+
+            ImGui::PlotLines("##fpsPlot", fpsHist.data(), (int)fpsHist.size(), 0, nullptr,
+                0.0f, maxFPS * PLOT_SCALE_PADDING, ImVec2(0, 80));
+
+            ImGui::SameLine();
+            ImGui::SetCursorPosX(PLOT_STATISTICS_POSITION);
+            ImGui::Text("Min: %.0f", minFPS);
+            ImGui::SameLine();
+            ImGui::Text("Avg: %.0f", avgFPS);
+            ImGui::SameLine();
+            ImGui::Text("Max: %.0f", maxFPS);
+        }
+        else
+        {
+            ImGui::Text("No FPS data yet.");
+        }
+    }
+}
