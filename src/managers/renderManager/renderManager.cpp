@@ -3,7 +3,8 @@
 bool RenderManager::Init(int width, int height, const char *title)
 {
     InitWindow(width, height, title);
-    SetTargetFPS(60);
+    SetTargetFPS(TARGET_FPS);
+		LOG_INFO("RenderManager Init");
     return IsWindowReady();
 }
 
@@ -40,4 +41,7 @@ void RenderManager::EndFrame()
     EndDrawing();
 }
 
-void RenderManager::Shutdown() { CloseWindow(); }
+void RenderManager::Shutdown() { 
+		LOG_DEBUG("CloseWindow");
+		CloseWindow(); 
+}

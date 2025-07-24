@@ -16,6 +16,7 @@ bool SceneManager::isEmpty() const { return m_scenes.empty(); }
 
 void SceneManager::ChangeScene(std::unique_ptr<Scene> scene)
 {
+
     if (!m_scenes.empty())
     {
         m_scenes.top()->Unload();
@@ -24,6 +25,7 @@ void SceneManager::ChangeScene(std::unique_ptr<Scene> scene)
     m_scenes.push(std::move(scene));
     m_scenes.top()->Init(m_renderManager, m_textureManager, m_fontManager,
                          m_soundManager, weak_from_this());
+    LOG_INFO("Change Scene" + scene->getName());
 }
 
 
@@ -36,11 +38,13 @@ void SceneManager::PushScene(std::unique_ptr<Scene> scene)
     m_scenes.push(std::move(scene));
     m_scenes.top()->Init(m_renderManager, m_textureManager, m_fontManager,
                          m_soundManager, weak_from_this());
+    LOG_INFO("Push Scene " + m_scenes.top()->getName());
 }
 
 
 void SceneManager::PopScene()
 {
+    LOG_INFO("Pop Scene" + m_scenes.top()->getName());
     if (!m_scenes.empty())
     {
         m_scenes.top()->Unload();

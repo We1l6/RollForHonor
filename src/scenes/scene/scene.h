@@ -25,7 +25,10 @@ class Scene
     virtual void Unload() = 0;
     virtual bool ShouldExit() = 0;
 
+		std::string getName(){return m_name;}
 
   protected:
+    void setName(std::string name){m_name = name;}
     std::weak_ptr<SceneManager> m_sceneManager;
+		std::string m_name;
 };

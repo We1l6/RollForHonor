@@ -1,13 +1,5 @@
 #pragma once
 
-/**
- * @file textureManager.h
- * @brief Texture Manager
- * @details With Meyer's Singleton, I retrieve instances and load Textures.
- * @author We1l6.f
- * @date 13/06/2025
- */
-
 #include "../../loggerManager/loggerManager.h"
 #include "raylib.h"
 #include <memory>

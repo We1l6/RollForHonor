@@ -6,7 +6,7 @@
 #include "imgui.h"
 #include "rlImGui.h"
 
-ImGuiManager::ImGuiManager() = default;
+ImGuiManager::ImGuiManager()  = default;
 ImGuiManager::~ImGuiManager() = default;
 
 bool ImGuiManager::Init()
@@ -16,6 +16,7 @@ bool ImGuiManager::Init()
         rlImGuiSetup(true);
         m_initialized = true;
     }
+    LOG_INFO("ImGUiManager Init");
     return m_initialized;
 }
 
@@ -50,7 +51,7 @@ void ImGuiManager::ShowDebugWindow(float fps)
 
 void ImGuiManager::ShowPerformanceWindow()
 {
-    float dt = GetFrameTime();
+    float dt       = GetFrameTime();
     m_maxFrameTime = std::max(dt, m_maxFrameTime);
 
     ImGui::Begin("Performance Info");
@@ -61,10 +62,14 @@ void ImGuiManager::ShowPerformanceWindow()
 
 #else
 
-ImGuiManager::ImGuiManager() = default;
+ImGuiManager::ImGuiManager()  = default;
 ImGuiManager::~ImGuiManager() = default;
 
-bool ImGuiManager::Init() { return false; }
+bool ImGuiManager::Init()
+{
+    LOG_INFO("ImGuiManager Init");
+    return false;
+}
 void ImGuiManager::BeginFrame() {}
 void ImGuiManager::EndFrame() {}
 void ImGuiManager::Shutdown() {}
