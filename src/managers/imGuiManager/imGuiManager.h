@@ -1,7 +1,7 @@
 #pragma once
 
+#include "../loggerManager/loggerManager.h"
 #include "raylib.h"
-
 class ImGuiManager
 {
   public:
@@ -21,6 +21,6 @@ class ImGuiManager
 
   private:
     float m_maxFrameTime{0.0f};
-    bool m_enabled{true};
-    bool m_initialized{false};
+    bool  m_enabled{true};
+    bool  m_initialized{false};
 };

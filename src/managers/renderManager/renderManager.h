@@ -2,6 +2,9 @@
 #include "../imGuiManager/imGuiManager.h"
 #include "raylib.h"
 #include <memory>
+#include "../loggerManager/loggerManager.h"
+
+
 class RenderManager
 {
   public:
@@ -16,6 +19,7 @@ class RenderManager
     void Shutdown();
 
   private:
+	const int TARGET_FPS{60};
     Camera2D m_camera;
     std::shared_ptr<ImGuiManager> m_imGuiManager;
 };

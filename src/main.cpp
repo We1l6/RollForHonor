@@ -1,6 +1,6 @@
 #include "spdlog/spdlog.h"
 #include <fmt/base.h>
-
+#include "managers/loggerManager/loggerManager.h"
 #include "managers/renderManager/renderManager.h"
 #include "managers/resourceManagers/fontManager/fontManager.h"
 #include "managers/resourceManagers/soundManager/soundManager.h"
@@ -13,7 +13,7 @@
 #include <raylib.h>
 
 
-int main()
+int main() 
 {
     auto renderManager = std::make_shared<RenderManager>();
     auto textureManager = std::make_shared<TextureManager>();
@@ -28,7 +28,7 @@ int main()
     auto imGuiManager = std::make_shared<ImGuiManager>();
     if (!imGuiManager->Init())
     {
-        spdlog::error("Failed to initialize ImGuiManager");
+        LOG_WARN("Failed to initialize ImGuiManager");
     }
 #else
     std::shared_ptr<ImGuiManager> imGuiManager = nullptr;
@@ -39,9 +39,10 @@ int main()
     {
         sceneManager->PushScene(
             SceneFactory::createScene(SceneType::MAIN_MENU));
+		float dt = GetFrameTime();
         while (!sceneManager->isEmpty())
         {
-            float dt = GetFrameTime();
+            dt = GetFrameTime();
             sceneManager->Update(dt);
             sceneManager->Render();
         }

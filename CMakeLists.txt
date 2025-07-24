@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.15...3.31)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(CMAKE_CXX_STANDARD 20) 
 
@@ -8,7 +9,7 @@ project(RollForHonor VERSION 1.0 LANGUAGES CXX)
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/")
 
 
-option(ENABLE_DEV_TOOLS "Enable DEV_TOOLS support using imGUI" ON)
+option(ENABLE_DEV_TOOLS "Enable DEV_TOOLS support using imGUI" OFF)
 
 # Include the custom module that defines `add_git_submodule()`
 include(AddGitSubmodule)

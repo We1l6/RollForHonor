@@ -16,3 +16,4 @@ out/
 # Clang
 .clang-format
 .clang-tidy
+.clangd
