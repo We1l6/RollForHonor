@@ -1,0 +1,15 @@
+<map id="src/managers/imGuiManager/imGuiManager.h" name="src/managers/imGuiManager/imGuiManager.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="200,5,411,45"/>
+<area shape="rect" id="Node000002" href="$loggerManager_8h.html" title=" " alt="" coords="92,93,337,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="285,48,240,86,237,82,282,44"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="362,93,433,119"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="329,44,375,82,371,86,326,48"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,174,85,199"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="191,121,83,171,81,166,189,116"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="109,174,187,199"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="207,121,169,165,165,162,203,117"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="211,167,352,207"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="227,117,258,154,254,158,222,121"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="377,174,501,199"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="248,116,394,167,392,172,246,121"/>
+</map>

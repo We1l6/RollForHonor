@@ -1,0 +1,9 @@
+<map id="UserInterface" name="UserInterface">
+<area shape="rect" id="Node000001" title=" " alt="" coords="83,5,193,31"/>
+<area shape="rect" id="Node000002" href="$classButton.html" title=" " alt="" coords="5,79,71,104"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="112,41,56,81,53,76,109,36"/>
+<area shape="rect" id="Node000003" href="$classCheckBox.html" title=" " alt="" coords="95,79,181,104"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="141,44,141,79,135,79,135,44"/>
+<area shape="rect" id="Node000004" href="$classScrollBar.html" title=" " alt="" coords="206,79,286,104"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="168,36,230,76,227,81,165,40"/>
+</map>

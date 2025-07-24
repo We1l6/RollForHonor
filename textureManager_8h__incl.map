@@ -1,0 +1,20 @@
+<map id="src/managers/resourceManagers/textureManager/textureManager.h" name="src/managers/resourceManagers/textureManager/textureManager.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="161,5,410,45"/>
+<area shape="rect" id="Node000002" href="$loggerManager_8h.html" title=" " alt="" coords="81,93,225,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="257,48,195,88,192,84,255,43"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="5,189,83,214"/>
+<area shape="poly" id="edge7_Node000001_Node000004" title=" " alt="" coords="162,45,113,64,91,78,71,95,59,113,51,134,46,175,41,174,46,133,54,111,67,92,87,74,110,59,160,40"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="250,101,321,126"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="288,46,288,87,283,87,283,46"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="345,101,404,126"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="307,44,354,89,351,93,303,48"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="429,101,553,126"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="331,43,452,93,450,98,329,48"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="107,189,187,214"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="155,134,151,175,146,175,149,133"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="131,136,72,182,68,178,127,132"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="211,181,352,221"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="183,131,243,171,240,176,180,136"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="377,189,501,214"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="217,131,389,182,387,187,215,136"/>
+</map>

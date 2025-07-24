@@ -1,0 +1,15 @@
+<map id="src/userInterface/UIUtils/UISkin/UISkin.h" name="src/userInterface/UIUtils/UISkin/UISkin.h">
+<area shape="rect" id="Node000001" title="UI skin class for visual styling of interface elements." alt="" coords="35,5,214,45"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="12,181,82,207"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="70,48,38,67,13,95,8,113,11,132,30,169,26,171,6,134,3,113,9,92,35,63,67,43"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="24,101,78,126"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="110,47,72,91,68,88,106,44"/>
+<area shape="rect" id="Node000004" href="$RectanglePro_8h.html" title="Extended rectangle shape class with rotation and rounded corners." alt="" coords="103,93,292,133"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="143,44,175,81,171,85,139,47"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="270,181,355,207"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="215,37,265,57,287,72,306,92,316,110,320,130,320,168,315,167,315,130,311,112,302,95,284,76,262,61,213,42"/>
+<area shape="poly" id="edge6_Node000004_Node000002" title=" " alt="" coords="163,136,83,177,80,172,160,131"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="227,131,286,171,283,176,224,136"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="166,181,229,207"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="200,134,200,167,195,167,195,134"/>
+</map>
